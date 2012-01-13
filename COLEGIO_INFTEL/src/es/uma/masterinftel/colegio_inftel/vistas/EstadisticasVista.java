@@ -21,6 +21,8 @@ import es.uma.masterinftel.colegio_inftel.utilidades.Profesor;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -43,7 +45,12 @@ public class EstadisticasVista extends javax.swing.JDialog {
     public EstadisticasVista(java.awt.Frame parent, boolean modal) throws SQLException {
         super(parent, modal);
         initComponents();
-        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                setVisible(false);
+                
+            }
+         });
     }
 
     /** This method is called from within the constructor to
@@ -71,9 +78,6 @@ public class EstadisticasVista extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         btnEstadistica3 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        btnEstadistica4 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         anioMatriculadosComboBox = new javax.swing.JComboBox();
 
@@ -233,44 +237,19 @@ public class EstadisticasVista extends javax.swing.JDialog {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel10.setText("Media aprobados/suspensos por curso");
-
-        btnEstadistica4.setText("Mostrar estadística");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(btnEstadistica4))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel10)))
-                .addContainerGap(114, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addComponent(btnEstadistica4)
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-
         jLabel7.setText("Año Escolar");
+
+        anioMatriculadosComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anioMatriculadosComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -288,7 +267,6 @@ public class EstadisticasVista extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -299,9 +277,7 @@ public class EstadisticasVista extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -333,14 +309,18 @@ public class EstadisticasVista extends javax.swing.JDialog {
         System.out.println("ID: " + curso.getId());
     }//GEN-LAST:event_cursoComboBoxItemStateChanged
 
+    private void anioMatriculadosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anioMatriculadosComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anioMatriculadosComboBoxActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -361,30 +341,11 @@ public class EstadisticasVista extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-       
-        //final EstadisticasVista vista;
-        java.awt.EventQueue.invokeLater(new Runnable() {
-        EstadisticasModelo modelo = new EstadisticasModelo();
-        EstadisticasVista vista;
-            public void run() {
-                EstadisticasVista dialog = new EstadisticasVista(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+        EstadisticasVista vista=new EstadisticasVista(new javax.swing.JFrame(), false);
+        EstadisticasControlador controlador = new EstadisticasControlador(vista);
+        vista.setVisible(true);
 
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                    EstadisticasControlador controlador = new EstadisticasControlador(modelo,vista);
-                });
- 
-          //      dialog.setContentPane(panel);
-               
-                
-                dialog.setVisible(true);
-                
-                
-            }
-        });
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox anioMatriculadosComboBox;
@@ -392,10 +353,8 @@ public class EstadisticasVista extends javax.swing.JDialog {
     private javax.swing.JButton btnEstadistica1;
     private javax.swing.JButton btnEstadistica2;
     private javax.swing.JButton btnEstadistica3;
-    private javax.swing.JButton btnEstadistica4;
     public javax.swing.JComboBox cursoComboBox;
     private static javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -406,7 +365,6 @@ public class EstadisticasVista extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     public javax.swing.JComboBox profesorComboBox;
     // End of variables declaration//GEN-END:variables
 
@@ -442,9 +400,6 @@ public class EstadisticasVista extends javax.swing.JDialog {
     }
     public void addEstadistica3Listener(ActionListener a){
         btnEstadistica3.addActionListener(a);
-    }
-    public void addEstadistica4Listener(ActionListener a){
-        btnEstadistica4.addActionListener(a);
     }
     
    
