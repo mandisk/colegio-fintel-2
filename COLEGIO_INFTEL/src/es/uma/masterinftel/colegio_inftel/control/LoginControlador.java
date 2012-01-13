@@ -56,16 +56,14 @@ public class LoginControlador {
         return h.toString();
     }
      
-    private void navegacion(Integer rol) {
+    private void navegacion(Integer rol,Integer idProfesor) {
         EscuelaModeloDAO next_modelo = new EscuelaModeloDAO();
         EscuelaVistaPrincipal next_vista = new EscuelaVistaPrincipal(next_modelo);
         EscuelaControlador next_controlador = new EscuelaControlador(next_modelo,next_vista);
         
         m_vista.setVisible(false);
-        next_vista.setRolJefeDeEstudios(rol);               
+        next_vista.setRolJefeDeEstudios(rol,idProfesor);
         next_vista.setVisible(true);
-        
-        
     }
         
     class AceptarListener implements ActionListener {
@@ -111,7 +109,7 @@ public class LoginControlador {
                                 if (bTest) {
                                     // El usuario es válido
                                     RolProfesorDTO rolProfesor = rol.findRolByProfesorId(profesor.getId());
-                                    navegacion(rolProfesor.getId_rol_fk());
+                                    navegacion(rolProfesor.getId_rol_fk(),profesor.getId());
                                 }
                                 else
                                     m_vista.printMensajeUserPassIncorrectos();
