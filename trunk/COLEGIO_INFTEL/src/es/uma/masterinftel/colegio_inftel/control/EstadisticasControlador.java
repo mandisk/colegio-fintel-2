@@ -43,7 +43,8 @@ public class EstadisticasControlador {
     private EstadisticasVista m_vista;
     
     /** Constructor */
-    public EstadisticasControlador( EstadisticasVista vista) throws SQLException{
+    public EstadisticasControlador( EstadisticasVista vista) {
+        try{
         //m_modelo = modelo;
         m_vista = vista;
 
@@ -52,6 +53,10 @@ public class EstadisticasControlador {
         m_vista.addEstadistica2Listener(new Estadistica2Listener());
         m_vista.addEstadistica3Listener(new Estadistica3Listener());
         cargarCombos();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
