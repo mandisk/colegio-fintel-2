@@ -149,59 +149,70 @@ public class EscuelaControlador {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Connection cnn = (Connection) Conexion.conectar();
-            int filaselect = m_vista.getFila();
-            int idAlumno = (Integer)m_vista.getTableData(filaselect, 10);
-            String nombre = (String)m_vista.getTableData(filaselect, 0);
-            String apellido1 = (String)m_vista.getTableData(filaselect, 1) ;
-            String apellido2 = (String)m_vista.getTableData(filaselect, 2);
-            String nota1 = (m_vista.getTableData(filaselect, 6)).toString();
-            String nota2 = (m_vista.getTableData(filaselect, 7)).toString();
-            String nota3 = (m_vista.getTableData(filaselect, 8)).toString();
-            String notaFinal = (m_vista.getTableData(filaselect, 9)).toString();
-           // int[] valgrupo ={1,6,7};
-          //  EscuelaModeloDTO dto = new EscuelaModeloDTO();
-           //Hay que utilizar getItem()
-         //   curso = m_vista.getCurso();
-         //   grupo = m_vista.getGrupo();
-            Asignatura as = (Asignatura)m_vista.getAsignaturaItem();
-            Curso cur = (Curso)m_vista.getCursoItem();
-            Grupo gru = (Grupo)m_vista.getGrupoItem();
-            MatriculacionesDAO objMatricula = new MatriculacionesDAO();
-            int[] valasig = {0,5,10,15,20,25};
-            curso = m_vista.getCurso();
-            int anioMatricula;
-            try{
-            anioMatricula = objMatricula.obtener_anio_matricula(cnn);
-            System.out.println("Pulsado");
-            
-            v_calificaciones.setAnio_mat(anioMatricula);
-            v_calificaciones.setId_alumno(idAlumno);
-            v_calificaciones.setCodasignatura(valasig[curso-1]+as.getId());
 
-            v_calificaciones.setAlumno(nombre+" "+apellido1);
-            v_calificaciones.setGrupo(gru.toString());
-            v_calificaciones.setAsignatura(as.toString());
-            v_calificaciones.setCurso(cur.toString());
-            v_calificaciones.setNota1(nota1);
-            v_calificaciones.setNota2(nota2);
-            v_calificaciones.setNota3(nota3);
-            v_calificaciones.setNotaFinal(notaFinal);
+            if(m_vista.jTable1.getSelectedRow()!=-1){
 
-            v_calificaciones.setVisible(true);
-           
-            
-             } catch (Exception ev)
-        {
-            ev.printStackTrace();
-        }
-        }
+                Connection cnn = (Connection) Conexion.conectar();
+                int filaselect = m_vista.getFila();
+                int idAlumno = (Integer)m_vista.getTableData(filaselect, 10);
+                String nombre = (String)m_vista.getTableData(filaselect, 0);
+                String apellido1 = (String)m_vista.getTableData(filaselect, 1) ;
+                String apellido2 = (String)m_vista.getTableData(filaselect, 2);
+                String nota1 = (m_vista.getTableData(filaselect, 6)).toString();
+                String nota2 = (m_vista.getTableData(filaselect, 7)).toString();
+                String nota3 = (m_vista.getTableData(filaselect, 8)).toString();
+                String notaFinal = (m_vista.getTableData(filaselect, 9)).toString();
+               // int[] valgrupo ={1,6,7};
+              //  EscuelaModeloDTO dto = new EscuelaModeloDTO();
+               //Hay que utilizar getItem()
+             //   curso = m_vista.getCurso();
+             //   grupo = m_vista.getGrupo();
+                Asignatura as = (Asignatura)m_vista.getAsignaturaItem();
+                Curso cur = (Curso)m_vista.getCursoItem();
+                Grupo gru = (Grupo)m_vista.getGrupoItem();
+                MatriculacionesDAO objMatricula = new MatriculacionesDAO();
+                int[] valasig = {0,5,10,15,20,25};
+                curso = m_vista.getCurso();
+                int anioMatricula;
+                try{
+                anioMatricula = objMatricula.obtener_anio_matricula(cnn);
+                System.out.println("Pulsado");
+
+                v_calificaciones.setAnio_mat(anioMatricula);
+                v_calificaciones.setId_alumno(idAlumno);
+                v_calificaciones.setCodasignatura(valasig[curso-1]+as.getId());
+
+                v_calificaciones.setAlumno(nombre+" "+apellido1);
+                v_calificaciones.setGrupo(gru.toString());
+                v_calificaciones.setAsignatura(as.toString());
+                v_calificaciones.setCurso(cur.toString());
+                v_calificaciones.setNota1(nota1);
+                v_calificaciones.setNota2(nota2);
+                v_calificaciones.setNota3(nota3);
+                v_calificaciones.setNotaFinal(notaFinal);
+
+                v_calificaciones.setVisible(true);
+
+
+                 } catch (Exception ev)
+                                {
+                          ev.printStackTrace();
+                  }
+
+        
+             }else{
+                JOptionPane.showMessageDialog(m_vista,"Por favor, seleccione un alumno.");               
+             } 
+        
+        
+        }//actionPerformed
 
     }
   class IncidenciasListener implements ActionListener{
       @Override
         public void actionPerformed(ActionEvent e) {
-          Connection cnn = (Connection) Conexion.conectar();
+            if(m_vista.jTable1.getSelectedRow()!=-1){
+            Connection cnn = (Connection) Conexion.conectar();
             int filaselect = m_vista.getFila();
             int idAlumno = (Integer)m_vista.getTableData(filaselect, 10);
             String comentarios = (String)m_vista.getTableData(filaselect,11);
@@ -244,13 +255,16 @@ public class EscuelaControlador {
             v_incidencias.setSanciones(sanciones.toString());
             v_incidencias.setComentarios(comentarios);
 
-  v_incidencias.setVisible(true);
-  
-    } catch (Exception ev)
-        {
-            ev.printStackTrace();
-        }
-      }
+              v_incidencias.setVisible(true);
+
+                } catch (Exception ev)
+                    {
+                        ev.printStackTrace();
+                    }
+            }else{
+                JOptionPane.showMessageDialog(m_vista,"Por favor, seleccione un alumno.");                
+            }
+            }
   }
 
  class EstadisticasListener implements ActionListener{
