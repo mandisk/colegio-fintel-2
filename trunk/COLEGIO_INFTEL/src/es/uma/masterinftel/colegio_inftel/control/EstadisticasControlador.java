@@ -137,7 +137,7 @@ public class EstadisticasControlador {
         while (j.hasNext()) {
 
             cursosDTO = (CursosDTO) j.next();
-            Curso curso = new Curso(cursosDTO.getDesc(),cursosDTO.getId());
+            Curso curso = new Curso(cursosDTO.getDesc(),Integer.toString(cursosDTO.getId()));
             m_vista.cursoComboBox.addItem(curso);
         }
         Curso curso = (Curso) m_vista.cursoComboBox.getSelectedItem();
@@ -158,16 +158,22 @@ public class EstadisticasControlador {
             Curso curso = (Curso) m_vista.cursoComboBox.getSelectedItem();
             Integer numAprobados = null;
                 try {
-                    numAprobados = calificacion.numAprobados(cnn, asignatura.getId(),
+                    numAprobados = calificacion.numAprobados(cnn, (Integer) asignatura.getId(),
                                                             (Integer) m_vista.getAnioMatriculadosComboBox().getSelectedItem(),
-                                                            curso.getId());
+                                                            Integer.parseInt(curso.getId()));
                 } catch (SQLException ex) {
                     Logger.getLogger(EstadisticasControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
             Integer numMatriculados = calificacion.numMatriculados(cnn,asignatura.getId(),
                                                                   (Integer) m_vista.getAnioMatriculadosComboBox().getSelectedItem(),
-                                                                  (Integer) curso.getId());
+                                                                  Integer.parseInt(curso.getId()));
 
+            System.out.println("asignatura.id: " + asignatura.getId());
+            System.out.println("curso.id: " + curso.getId());
+            System.out.println("Año: " + m_vista.getAnioMatriculadosComboBox().getSelectedItem());
+            System.out.println("numAprobados: " + numAprobados);
+            System.out.println("numMatriculados: " + numMatriculados);
+            
             float porcAprobados = ((float) numAprobados / (float) numMatriculados) * 100;
             float porcSuspensos = (((float) numMatriculados - (float) numAprobados) / (float) numMatriculados) * 100;
 
@@ -217,6 +223,11 @@ public class EstadisticasControlador {
                 }
             Integer numMatriculados = calificacion.numMatriculados(cnn, profesor.id, (Integer) m_vista.getAnioMatriculadosComboBox().getSelectedItem());
 
+            System.out.println("profesor.id: " + profesor.id);
+            System.out.println("Año: " + m_vista.getAnioMatriculadosComboBox().getSelectedItem());
+            System.out.println("numAprobados: " + numAprobados);
+            System.out.println("numAprobados: " + numMatriculados);
+            
             float porcAprobados = ((float) numAprobados / (float) numMatriculados) * 100;
             float porcSuspensos = (((float) numMatriculados - (float) numAprobados) / (float) numMatriculados) * 100;
 
