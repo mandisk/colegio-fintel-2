@@ -2,10 +2,8 @@ package es.uma.masterinftel.colegio_inftel.control;
 
 
 import com.mysql.jdbc.Connection;
-import es.uma.masterinftel.colegio_inftel.modelo.dto.IncidenciasDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import es.uma.masterinftel.colegio_inftel.vistas.AnotarIncidenciasVista;
-import es.uma.masterinftel.colegio_inftel.modelo.dao.IncidenciasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.MatriculacionesDTO;
 import java.awt.event.ActionEvent;
