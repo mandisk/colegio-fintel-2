@@ -13,7 +13,7 @@ import com.mysql.jdbc.Connection;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
 import es.uma.masterinftel.colegio_inftel.vistas.AnotarNotasVista;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.EscuelaModeloDAO;
-import es.uma.masterinftel.colegio_inftel.modelo.dao.IncidenciasDAO;
+//import es.uma.masterinftel.colegio_inftel.modelo.dao.IncidenciasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
 import es.uma.masterinftel.colegio_inftel.vistas.EscuelaVistaPrincipal;
 import es.uma.masterinftel.colegio_inftel.vistas.*;
@@ -50,6 +50,11 @@ public class EscuelaControlador {
     protected MatriculacionesDAO        m_incidencias;
     protected AnotarIncidenciasVista         v_incidencias;
     protected AnotarIncidenciasControlador   c_incidencias;
+    
+    //Formulario Ver Estadisticas
+   // protected MatriculacionesDAO        m_incidencias;
+    protected EstadisticasVista         v_estadisticas;
+    protected EstadisticasControlador   c_estadisticas;
 
     
     /** Constructor */
@@ -66,7 +71,15 @@ public class EscuelaControlador {
         m_incidencias = new MatriculacionesDAO();
         v_incidencias = new AnotarIncidenciasVista(m_incidencias, m_vista, true);
         c_incidencias = new AnotarIncidenciasControlador(m_incidencias,v_incidencias);
-
+        
+        //Creación del formulario Ver Estadisticas
+        try{
+        v_estadisticas = new EstadisticasVista(m_vista,true);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        c_estadisticas = new EstadisticasControlador(v_estadisticas);
 
 
         //Aquí se localizan los métodos de escucha
@@ -74,6 +87,7 @@ public class EscuelaControlador {
         vista.addFilterName(new FilterListener());
         vista.addAnotarNotasListener(new CalificacionesListener());
         vista.addAnotarIncidenciasListener(new IncidenciasListener());
+        vista.addVerEstadisticasListener(new EstadisticasListener());
       
     }
     
@@ -239,6 +253,10 @@ public class EscuelaControlador {
       }
   }
 
-
-
+ class EstadisticasListener implements ActionListener{
+      @Override
+        public void actionPerformed(ActionEvent e) {
+  v_estadisticas.setVisible(true);
+      }
+ }
 }
