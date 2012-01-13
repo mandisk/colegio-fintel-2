@@ -54,7 +54,7 @@ public class MatriculacionesDAO extends GenericDAO {
             ps.setInt(1, anio_mat);
             rs = ps.executeQuery();
 
-            if( rs.next() ){
+            while( rs.next() ){
                 MatriculadosAsignaturas matriculados = new MatriculadosAsignaturas();
                 matriculados.setCodasignatura(rs.getInt(1));
                 matriculados.setAlumnosMatriculados(rs.getInt(2));
