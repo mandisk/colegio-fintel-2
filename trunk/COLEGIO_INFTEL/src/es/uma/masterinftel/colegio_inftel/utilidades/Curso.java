@@ -10,14 +10,14 @@ package es.uma.masterinftel.colegio_inftel.utilidades;
  */
 public class Curso {
   private String nombre; //1
-    private Integer id;
+    private String id;
  
-    public Curso(String nombre, Integer id){ //2
+    public Curso(String nombre, String id){ //2
         this.nombre=nombre;
         this.id=id;
     }
  
-    public Integer getId(){ //3
+    public String getId(){ //3
         return id;
     }
  

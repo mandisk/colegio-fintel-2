@@ -6,9 +6,14 @@
 package es.uma.masterinftel.colegio_inftel.control;
 
 import es.uma.masterinftel.colegio_inftel.vistas.AnotarNotasVista;
+import es.uma.masterinftel.colegio_inftel.vistas.EscuelaVistaPrincipal;
+import es.uma.masterinftel.colegio_inftel.utilidades.*;
+import es.uma.masterinftel.colegio_inftel.vistas.*;
 import com.mysql.jdbc.Connection;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.CalificacionesDTO;
+import es.uma.masterinftel.colegio_inftel.modelo.dao.EscuelaModeloDAO;
+import es.uma.masterinftel.colegio_inftel.modelo.dto.EscuelaModeloDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,9 +34,15 @@ import java.util.logging.Logger;
  * @author Agustín Pereña
  */
 public class AnotarNotasControlador {
+    
+    //Variables inicializadas
+    int curso=1;
+    int grupo=1;
 
     private CalificacionesDAO   m_modelo;
     private AnotarNotasVista    m_vista;
+    //private EscuelaVistaPrincipal m_vista_principal;
+   // private EscuelaModeloDAO m_modelo_principal;
 
     public AnotarNotasControlador(CalificacionesDAO modelo, AnotarNotasVista vista){
 
@@ -103,7 +114,7 @@ public class AnotarNotasControlador {
                         dto.setNota_p2(m_vista.getN2());
                         dto.setNota_p3(m_vista.getN3());
                         dto.setNota_final(m_vista.getNFinal());
-
+                        //Notas nota = new Notas(m_vista.getN1(),m_vista.getN2(),m_vista.getN3(),m_vista.getNFinal());
                         try {
                             System.out.println(dto.toString());
                             m_modelo.update(dto, cnn);
@@ -126,7 +137,13 @@ public class AnotarNotasControlador {
     class CerrarListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
+          EscuelaModeloDAO next_modelo = new EscuelaModeloDAO();
+        EscuelaVistaPrincipal next_vista = new EscuelaVistaPrincipal(next_modelo);
+        EscuelaControlador next_controlador = new EscuelaControlador(next_modelo,next_vista); 
             m_vista.setVisible(false);
+           //  int fila = next_vista.getFila();
+            next_vista.setNotas(m_vista.getN1(),6);
+      //      Notas n = new Notas(5,5,5,5);
         }
 
     }

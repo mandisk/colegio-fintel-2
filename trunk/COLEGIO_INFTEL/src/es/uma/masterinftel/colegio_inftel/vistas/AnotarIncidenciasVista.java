@@ -329,14 +329,14 @@ public class AnotarIncidenciasVista extends javax.swing.JDialog {
     public String getComentarios(){
         return new String(comentariosTextArea.getText());
     }
-    public void setFaltas(int faltas){
-        faltasText.setText(new Integer(faltas).toString());
+    public void setFaltas(String faltas){
+        faltasText.setText(faltas);
     }
-    public void setRetrasos(int retrasos){
-        retrasosText.setText(new Integer(retrasos).toString() );
+    public void setRetrasos(String retrasos){
+        retrasosText.setText(retrasos);
     }
-    public void setSanciones(int sanciones){
-        sancionesText.setText(new Integer(sanciones).toString());
+    public void setSanciones(String sanciones){
+        sancionesText.setText(sanciones);
     }
     public void setComentarios(String comentario){
         comentariosTextArea.setText(comentario);
