@@ -131,6 +131,7 @@ public class AnotarNotasControlador {
 
             Thread hilo = new Thread(miRunnable);
             hilo.start();
+            m_vista.setVisible(false);
         }
     }
 

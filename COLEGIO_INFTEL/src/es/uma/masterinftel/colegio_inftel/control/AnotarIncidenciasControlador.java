@@ -49,8 +49,8 @@ public class AnotarIncidenciasControlador {
                         MatriculacionesDTO dto = new MatriculacionesDTO();
                         Connection cnn = (Connection) Conexion.conectar();
 
-                        dto.setAnio_mat(anio_mat);
-                        dto.setId_alumno_fk(id_alumno);
+                        dto.setAnio_mat(vista.getAnio_mat());
+                        dto.setId_alumno_fk(vista.getId_alumno());
 
                         dto.setFaltas_acumuladas(vista.getFaltas());
                         dto.setRetardos(vista.getRetrasos());
