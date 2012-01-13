@@ -28,7 +28,7 @@ import javax.swing.event.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import com.mysql.jdbc.Connection;
-//import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
+import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -74,7 +74,6 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
         //Iniciamos combo
      
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -99,6 +98,12 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btEstadisticas = new javax.swing.JButton();
         btCalificaciones = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         btIncidencias = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -156,6 +161,12 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
+        comboCurso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1º ESO", "2º ESO", "3º ESO", "4º ESO","1º BACHILLERATO","2º BACHILLERATO" }));
+
+        comboGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "B", "C", "D" ,"CIENTIFICO-TECNOLOGICO" , "LETRAS" , "HUMANIDADES" }));
+
+        comboAsignatura.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Matemáticas", "Lengua", "Historia", "Inglés", "Informática" }));
+
         curso.setText("Curso");
 
         jLabel6.setText("Grupo");
@@ -201,13 +212,49 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
                 .addGap(170, 170, 170))
         );
 
-        comboCurso.setModel(comboModelo);
-        comboGrupo.setModel(comboModeloGrupo);
-        comboAsignatura.setModel(comboModeloAsignatura);
-
         btEstadisticas.setText("Ver Estadísticas");
 
         btCalificaciones.setText("Editar calificaciones");
+
+        jLabel5.setText("Aprobados: ");
+
+        jLabel9.setText("Suspensos:");
+
+        jLabel10.setText("Nota media:");
+
+        jLabel11.setText("Nota mínima:");
+
+        jLabel12.setText("Nota máxima:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel9)
+                .addGap(39, 39, 39)
+                .addComponent(jLabel10)
+                .addGap(56, 56, 56)
+                .addComponent(jLabel11)
+                .addGap(55, 55, 55)
+                .addComponent(jLabel12)
+                .addContainerGap(403, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
+                .addContainerGap())
+        );
 
         btIncidencias.setText("Editar Incidencias");
 
@@ -217,17 +264,23 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btEstadisticas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 599, Short.MAX_VALUE)
-                .addComponent(btCalificaciones)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btIncidencias)
-                .addGap(81, 81, 81))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btEstadisticas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 599, Short.MAX_VALUE)
+                        .addComponent(btCalificaciones)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btIncidencias)
+                        .addGap(81, 81, 81)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btEstadisticas)
                     .addComponent(btCalificaciones)
@@ -266,9 +319,7 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
         jTable1.setModel(m_modelo.modelo);
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getColumn(10).setMaxWidth(0);
-
         jTable1.getColumnModel().getColumn(10).setMinWidth(0);
-
         jTable1.getColumnModel().getColumn(10).setPreferredWidth(0);
         jTable1.getColumnModel().getColumn(11).setMaxWidth(0);
         jTable1.getColumnModel().getColumn(11).setMinWidth(0);
@@ -321,12 +372,18 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JComboBox comboGrupo;
     private javax.swing.JLabel curso;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
@@ -336,9 +393,8 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField textNombre;
     // End of variables declaration//GEN-END:variables
  
- 
    
-   public int getCurso() {
+  public int getCurso() {
        return comboCurso.getSelectedIndex()+1;
     }
    public int getGrupo(){
@@ -459,7 +515,7 @@ comboModelo.addElement(new Curso(cursos[a.getImparte_cursos_id_fk()-1], (a.getIm
 }
     public void setNotas(double dato,int columna){
     int fila = getFila();
-   // Notas n;
+    //Notas n;
     //setTableData(dato,fila,columna);
     setTableData(2,1,6);
     } 
