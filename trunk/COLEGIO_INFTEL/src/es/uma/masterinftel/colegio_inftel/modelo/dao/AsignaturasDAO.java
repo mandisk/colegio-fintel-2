@@ -27,7 +27,32 @@ public class AsignaturasDAO extends GenericDAO {
     public static final String SQL_SELECT_ASIGNATURAS_PROFESOR =
            "SELECT * FROM ASIGNATURAS WHERE profesor_id_fk=?;";
 
+    public static final String SQL_SELECT_ASIGNATURAS_POR_CODIGO =
+           "SELECT desc FROM ASIGNATURAS WHERE codasignatura=?;";
 
+
+    public String obtenerNombreAsignatura(Connection cnn, Integer codigo) throws SQLException {
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String descAsignatura = " ";
+
+        try {
+            ps = (PreparedStatement) cnn.prepareStatement(SQL_SELECT_ASIGNATURAS_POR_CODIGO );
+            ps.setInt(1, codigo);
+            rs = ps.executeQuery();
+
+            if( rs.next() ){
+                descAsignatura = rs.getString(1);
+            }
+        } finally {
+            cerrar(ps);
+            cerrar(rs);
+        }
+
+        return descAsignatura;
+
+    }
     public ArrayList<AsignaturasDTO> obtenerAsignaturas(Connection conn) throws SQLException {
 
         PreparedStatement ps = null;

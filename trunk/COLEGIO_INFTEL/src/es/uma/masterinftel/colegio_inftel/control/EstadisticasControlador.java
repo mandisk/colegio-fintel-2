@@ -17,6 +17,7 @@ import es.uma.masterinftel.colegio_inftel.modelo.dto.ProfesoresDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Asignatura;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
+import es.uma.masterinftel.colegio_inftel.utilidades.MatriculadosAsignaturas;
 import es.uma.masterinftel.colegio_inftel.utilidades.Profesor;
 import es.uma.masterinftel.colegio_inftel.vistas.EstadisticasVista;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,10 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -46,8 +51,6 @@ public class EstadisticasControlador {
         m_vista.addEstadistica1Listener(new Estadistica1Listener());
         m_vista.addEstadistica2Listener(new Estadistica2Listener());
         m_vista.addEstadistica3Listener(new Estadistica3Listener());
-        m_vista.addEstadistica4Listener(new Estadistica4Listener());
-
         cargarCombos();
     }
 
@@ -57,17 +60,18 @@ public class EstadisticasControlador {
         ArrayList profesores = new ArrayList();
         ArrayList asignaturas = new ArrayList();
         ArrayList cursos = new ArrayList();
-
+        Connection cnn = (Connection) Conexion.conectar();
         cargarCombosAnio(anios);
         cargarComboProfesores(profesores);
-        cargarComboAsignaturas(asignaturas);
-        cargarComboCursos(cursos);
+        cargarComboAsignaturas(cnn,asignaturas);
+        cargarComboCursos(cnn,cursos);
     }
      //método para cargar combos
 
     //método para cargar combo años matriculacion
     public void cargarCombosAnio( ArrayList anios) throws SQLException, SQLException{
         //CARGA DEL COMBO AÑOS MATRICULACION
+        System.out.println("Cargando combo años");
         MatriculacionesDAO matriculacionesDAO = new MatriculacionesDAO();
         Connection cnn = (Connection) Conexion.conectar();
         anios = (ArrayList) matriculacionesDAO.obtener_anios_matriculaciones(cnn);
@@ -86,6 +90,7 @@ public class EstadisticasControlador {
     //método para cargar combo profesores
     public void cargarComboProfesores(ArrayList profesores) throws SQLException{
 
+        System.out.println("Cargando combo profesores");
          // CARGA DEL COMBO PROFESORES
         ProfesoresDAO profesoresDAO = new ProfesoresDAO();
         profesores = profesoresDAO.obtenerProfesores();
@@ -104,10 +109,10 @@ public class EstadisticasControlador {
         System.out.println("ID: " + profesor.id);
     }
     //método para cargar combo asignaturas
-    public void cargarComboAsignaturas(ArrayList asignaturas) throws SQLException{
-
+    public void cargarComboAsignaturas(Connection cnn, ArrayList asignaturas) throws SQLException{
+        System.out.println("Cargando combo asignaturas");
         AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
-        asignaturas = asignaturasDAO.obtenerAsignaturas(Conexion.conectar());
+        asignaturas = asignaturasDAO.obtenerAsignaturas(cnn);
         Iterator j = asignaturas.iterator();
         AsignaturasDTO asignaturasDTO = new AsignaturasDTO();
 
@@ -122,10 +127,10 @@ public class EstadisticasControlador {
 
     }
     //método para cargar combo cursos
-    public void cargarComboCursos(ArrayList cursos){
-
+    public void cargarComboCursos(Connection cnn, ArrayList cursos) throws SQLException{
+        System.out.println("Cargando combo cursos");
         CursosDAO cursoDAO = new CursosDAO();
-        cursos = cursoDAO.obtenerCursos(Conexion.conectar());
+        cursos = cursoDAO.obtenerCursos(cnn);
         Iterator j = cursos.iterator();
         CursosDTO cursosDTO = new CursosDTO();
 
@@ -135,7 +140,7 @@ public class EstadisticasControlador {
             Curso curso = new Curso(cursosDTO.getDesc(),cursosDTO.getId());
             m_vista.cursoComboBox.addItem(curso);
         }
-        Curso curso = (Curso) m_vista.asignaturaComboBox.getSelectedItem();
+        Curso curso = (Curso) m_vista.cursoComboBox.getSelectedItem();
         System.out.println("ID: " + curso.getId());
 
     }
@@ -143,6 +148,7 @@ public class EstadisticasControlador {
     public class Estadistica1Listener implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
+            System.out.println("Pulsado boton1");
             Connection cnn = (Connection) Conexion.conectar();
             CalificacionesDAO calificacion = new CalificacionesDAO();
 
@@ -182,11 +188,11 @@ public class EstadisticasControlador {
                     true);
             //Creamos una especie de frame y mostramos el JFreeChart en él
             //Este constructor nos pide el título del Chart y el chart creado
-            ChartFrame frame = new ChartFrame("Primer Chart para javax0711", chart);
+            ChartFrame frame = new ChartFrame("Estadística--Aprobados/Suspensos por Asignatura y Curso", chart);
             frame.pack();
             frame.setVisible(true);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null,
                     "Se ha producido un error de Base de Datos");
         }
      }
@@ -195,6 +201,7 @@ public class EstadisticasControlador {
     public class Estadistica2Listener implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
+            System.out.println("Pulsado boton2");
             Connection cnn = (Connection) Conexion.conectar();
             CalificacionesDAO calificacion = new CalificacionesDAO();
 
@@ -229,11 +236,11 @@ public class EstadisticasControlador {
                     true);
             //Creamos una especie de frame y mostramos el JFreeChart en él
             //Este constructor nos pide el título del Chart y el chart creado
-            ChartFrame frame = new ChartFrame("Primer Chart para javax0711", chart);
+            ChartFrame frame = new ChartFrame("Estadística--Aprobados/Suspensos por Profesor y Año", chart);
             frame.pack();
             frame.setVisible(true);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null,
                     "Se ha producido un error de Base de Datos");
         }
      }
@@ -242,15 +249,44 @@ public class EstadisticasControlador {
     public class Estadistica3Listener implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            System.out.println("Pulsado boton3");
+            Connection cnn = (Connection) Conexion.conectar();
+            MatriculacionesDAO matriculacion = new MatriculacionesDAO();
+            AsignaturasDAO asignatura= new AsignaturasDAO();
+        try {
+
+            ArrayList<MatriculadosAsignaturas> matriculados = new ArrayList<MatriculadosAsignaturas>();
+                try {
+                    matriculados = matriculacion.obtenerNumMatriculadosAsignatura(cnn,(Integer)m_vista.anioMatriculadosComboBox.getSelectedItem());
+                } catch (SQLException ex) {
+                    Logger.getLogger(EstadisticasControlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                        
+            //Crear un dataset
+            DefaultPieDataset data = new DefaultPieDataset();
+            for(int i=0; i < matriculados.size();i++){
+                MatriculadosAsignaturas matriculadosAsignatura = matriculados.get(i);
+                data.setValue(asignatura.obtenerAsignaturas(cnn).get(i).getDesc(), matriculadosAsignatura.getAlumnosMatricualdos());
+            }
+            //Creamos un Chart
+            JFreeChart chart = ChartFactory.createPieChart(
+                    "Nº de Alumnos Matriculados por Asignatura ", //Títrulo del gráfico
+                    data,
+                    true,//Leyenda
+                    true,//ToolTips
+                    true);
+            //Creamos una especie de frame y mostramos el JFreeChart en él
+            //Este constructor nos pide el título del Chart y el chart creado
+            ChartFrame frame = new ChartFrame("Estadística--Alumnos Matriculados por Asignatura", chart);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (SQLException err) {
+            JOptionPane.showMessageDialog(null,
+                    "Se ha producido un error de Base de Datos");
+        }
+
         }
 
     }
-    public class Estadistica4Listener implements ActionListener{
-
-        public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-    }
+    
 }
