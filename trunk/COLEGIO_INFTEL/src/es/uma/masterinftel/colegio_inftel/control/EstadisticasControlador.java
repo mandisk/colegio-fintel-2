@@ -20,8 +20,10 @@ import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
 import es.uma.masterinftel.colegio_inftel.utilidades.MatriculadosAsignaturas;
 import es.uma.masterinftel.colegio_inftel.utilidades.Profesor;
 import es.uma.masterinftel.colegio_inftel.vistas.EstadisticasVista;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -154,6 +156,7 @@ public class EstadisticasControlador {
 
         public void actionPerformed(ActionEvent e) {
             System.out.println("Pulsado boton1");
+            m_vista.setVisible(false);
             Connection cnn = (Connection) Conexion.conectar();
             CalificacionesDAO calificacion = new CalificacionesDAO();
 
@@ -199,6 +202,12 @@ public class EstadisticasControlador {
                     frame.pack();
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
+
+                    frame.addWindowListener(new java.awt.event.WindowAdapter(){
+                        public void windowClosing(WindowEvent e){
+                            m_vista.setVisible(true);
+                        }
+                    });
                 }
             } catch (SQLException err) {
                 JOptionPane.showMessageDialog(null,
@@ -210,6 +219,7 @@ public class EstadisticasControlador {
 
         public void actionPerformed(ActionEvent e) {
             System.out.println("Pulsado boton2");
+            m_vista.setVisible(false);
             Connection cnn = (Connection) Conexion.conectar();
             CalificacionesDAO calificacion = new CalificacionesDAO();
 
@@ -251,6 +261,12 @@ public class EstadisticasControlador {
                     frame.pack();
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
+
+                    frame.addWindowListener(new java.awt.event.WindowAdapter(){
+                        public void windowClosing(WindowEvent e){
+                            m_vista.setVisible(true);
+                        }
+                    });
                 }
             } catch (SQLException err) {
                 JOptionPane.showMessageDialog(null,
@@ -262,6 +278,7 @@ public class EstadisticasControlador {
 
         public void actionPerformed(ActionEvent e) {
             System.out.println("Pulsado boton3");
+            m_vista.setVisible(false);
             Connection cnn = (Connection) Conexion.conectar();
             MatriculacionesDAO matriculacion = new MatriculacionesDAO();
             AsignaturasDAO asignatura= new AsignaturasDAO();
@@ -290,9 +307,16 @@ public class EstadisticasControlador {
             //Creamos una especie de frame y mostramos el JFreeChart en él
             //Este constructor nos pide el título del Chart y el chart creado
             ChartFrame frame = new ChartFrame("Estadística--Alumnos Matriculados por Asignatura", chart);
+            frame.setPreferredSize(new Dimension(1000,750));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+
+            frame.addWindowListener(new java.awt.event.WindowAdapter(){
+                        public void windowClosing(WindowEvent e){
+                            m_vista.setVisible(true);
+                        }
+                    });
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null,
                     "Se ha producido un error de Base de Datos");
