@@ -192,6 +192,7 @@ public class EstadisticasControlador {
                     //Este constructor nos pide el título del Chart y el chart creado
                     ChartFrame frame = new ChartFrame("Estadística--Aprobados/Suspensos por Asignatura y Curso", chart);
                     frame.pack();
+                    frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
                 }
             } catch (SQLException err) {
@@ -267,7 +268,7 @@ public class EstadisticasControlador {
                 } catch (SQLException ex) {
                     Logger.getLogger(EstadisticasControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                        
+                
             //Crear un dataset
             DefaultPieDataset data = new DefaultPieDataset();
             for(int i=0; i < matriculados.size();i++){
@@ -285,6 +286,7 @@ public class EstadisticasControlador {
             //Este constructor nos pide el título del Chart y el chart creado
             ChartFrame frame = new ChartFrame("Estadística--Alumnos Matriculados por Asignatura", chart);
             frame.pack();
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null,
