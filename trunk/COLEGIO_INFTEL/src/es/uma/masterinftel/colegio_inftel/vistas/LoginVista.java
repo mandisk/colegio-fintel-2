@@ -192,7 +192,7 @@ public class LoginVista extends javax.swing.JFrame {
 
     public void printMensajeUserPassIncorrectos() {
         JOptionPane.showMessageDialog(this,
-                "Usuario / Password incorectos");
+                "Usuario / Password incorrectos");
     }
 
     public void printMensajeUserPassVacios() {
