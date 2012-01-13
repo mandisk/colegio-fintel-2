@@ -46,6 +46,8 @@ public class EstadisticasVista extends javax.swing.JDialog {
     public EstadisticasVista(java.awt.Frame parent, boolean modal) throws SQLException {
         super(parent, modal);
         initComponents();
+        //Centramos la ventana en pantalla
+        this.setLocationRelativeTo(null); 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 setVisible(false);
