@@ -8,7 +8,6 @@ package es.uma.masterinftel.colegio_inftel.utilidades;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -16,19 +15,22 @@ import java.util.Properties;
  * a partir de un fichero de propiedades
  *
  * @author Agustín Pereña
- * @author Manuel Valls
- * @author Jesús Barriga
- * @author Luis Jarén
  * @version v1.0 Diciembre-2011
  */
 public class ConfigBD {
 
     /**
-     * Atributos de clase para la carga y lectura posterior de los datos
-     * de configuración de la Base de Datos
+     * uri de conexion a la BD, por ejemplo:
+     * jdbc:mysql://174.132.76.188:3306/coolfm_java
      */
     public static String uri;
+    /**
+     * Atributo de clase: usuario de conexion a la BD
+     */
     public static String usuario;
+    /**
+     * Atritubo de clase: clave de usuario para conexion a BD
+     */
     public static String clave;
 
     /**

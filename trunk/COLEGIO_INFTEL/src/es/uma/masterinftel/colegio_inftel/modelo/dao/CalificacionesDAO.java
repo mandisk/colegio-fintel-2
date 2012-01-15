@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * CalificacionesDAO.java
+ *
  */
 
 package es.uma.masterinftel.colegio_inftel.modelo.dao;
@@ -8,16 +8,21 @@ package es.uma.masterinftel.colegio_inftel.modelo.dao;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.CalificacionesDTO;
-import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * Clase DAO (Data Access Object) para el acceso al modelo (calificaciones)
  *
- * @author agumpg
+ * @author Agustín Pereña
+ * @author Jesús Barriga
+ * @version v1.0 
  */
 public class CalificacionesDAO extends GenericDAO {
 
+    /**
+     * Sentencia SQL para actualizar las calificaciones del alumno
+     */
     public static final String SQL_UPDATE_CALIFICACIONES =
            "UPDATE CALIFICACIONES SET " +
            "nota_p1 = ?, nota_p2 = ?, nota_p3 = ?, nota_final = ? " +
@@ -26,6 +31,9 @@ public class CalificacionesDAO extends GenericDAO {
            "id_alumno_fk = ? AND " +
            "codasignatura_fk = ?";
 
+    /**
+     * Sentencia SQL que devuelve el número de aprobados
+     */
     public static final String SQL_APROBADOS =
             "SELECT COUNT(DISTINCT A.ID_ALUMNO_FK) AS APROBADOS "+
             "FROM  MATRICULACIONES A, CALIFICACIONES D "+
@@ -36,6 +44,9 @@ public class CalificacionesDAO extends GenericDAO {
             "AND   D.ANIO_MAT_FK = ? "+
             "ORDER BY A.ID_ALUMNO_FK; ";
 
+    /**
+     * Sentencia SQL que devuelve el número de matriculados en una asignatura
+     */
     public static final String SQL_MATRICULADOS =
             "SELECT COUNT(DISTINCT A.ID_ALUMNO_FK) AS APROBADOS "+
             "FROM  MATRICULACIONES A, CALIFICACIONES D "+
@@ -45,6 +56,10 @@ public class CalificacionesDAO extends GenericDAO {
             "AND   D.ANIO_MAT_FK = ? "+
             "ORDER BY A.ID_ALUMNO_FK;";
 
+
+    /**
+     * Sentencia SQL que devuelve el número de aprobados de un profesor
+     */
     public static final String SQL_APROBADOS_PROFESOR =
             "SELECT COUNT(B.ID_ALUMNO_FK) AS APROBADOS " +
             "FROM ASIGNATURAS A, CALIFICACIONES B "+
@@ -54,7 +69,9 @@ public class CalificacionesDAO extends GenericDAO {
             "AND B.NOTA_FINAL >= 5 "+
             "ORDER BY B.ID_ALUMNO_FK; ";
 
-
+    /**
+     * Sentencia SQL el numero de matriculados en las asignaturas de un profesor
+     */
     public static final String SQL_MATRICULADOS_ASIG_PROFESOR =
             "SELECT COUNT(B.ID_ALUMNO_FK) AS APROBADOS " +
             "FROM ASIGNATURAS A, CALIFICACIONES B "+
@@ -64,6 +81,15 @@ public class CalificacionesDAO extends GenericDAO {
             "ORDER BY B.ID_ALUMNO_FK; ";
 
 
+    /**
+     * Consulta del número de aprobados
+     * @param cnn           Conexión a la BD
+     * @param codasignatura Código de la Asignatura
+     * @param anio_mat      Año de Matriculación
+     * @param id_curso      Identificador del Curso
+     * @return número de aprobados
+     * @throws java.sql.SQLException
+     */
     public Integer numAprobados(Connection cnn, Integer codasignatura, Integer anio_mat, Integer id_curso)
                                 throws SQLException{
 
@@ -90,6 +116,14 @@ public class CalificacionesDAO extends GenericDAO {
     }
 
 
+    /**
+     * Consulta del número de aprobados
+     * @param cnn           Conexión a la BD
+     * @param id_profesor   Identificador del profesor
+     * @param anio_mat      Año de Matriculación
+     * @return número de aprobados
+     * @throws java.sql.SQLException
+     */
     public Integer numAprobados(Connection cnn, Integer id_profesor, Integer anio_mat)
                                 throws SQLException{
 
@@ -115,6 +149,15 @@ public class CalificacionesDAO extends GenericDAO {
     }
 
 
+    /**
+     * Consuta del número de Alumnos matriculados
+     * @param cnn               Conexión a la BD
+     * @param codasignatura     Código de Asignatura
+     * @param anio_mat          Año de Matriculación
+     * @param id_curso          Identificador del curso
+     * @return número de matriculados
+     * @throws java.sql.SQLException
+     */
     public Integer numMatriculados(Connection cnn, Integer codasignatura, Integer anio_mat, Integer id_curso)
                                 throws SQLException{
 
@@ -142,6 +185,14 @@ public class CalificacionesDAO extends GenericDAO {
 
 
 
+    /**
+     * Consulta del número de Alumnos matriculados
+     * @param cnn           Conexión a la BD
+     * @param id_profesor   Identificador del profesor
+     * @param anio_mat      Año de Matriculación
+     * @return número de alumnos matriculados
+     * @throws java.sql.SQLException
+     */
     public Integer numMatriculados(Connection cnn, Integer id_profesor, Integer anio_mat)
                                 throws SQLException{
 
@@ -167,6 +218,12 @@ public class CalificacionesDAO extends GenericDAO {
     }
 
 
+    /**
+     * Actualización en BD de las calificaciones del alumno
+     * @param dto       DTO de calificaciones
+     * @param conexion  Conexión a la BD
+     * @throws java.sql.SQLException
+     */
     public void update(CalificacionesDTO dto, Connection conexion) throws SQLException{
         PreparedStatement ps = null;
         try {
@@ -184,40 +241,6 @@ public class CalificacionesDAO extends GenericDAO {
         } finally {
             cerrar(ps);
         }
-
-    }
-
-
-
-
-
-
-    public static void main(String[] args) throws SQLException{
-        System.out.println("Probando CalificacionesDAO....");
-
-        CalificacionesDTO dto = new CalificacionesDTO();
-        Connection cnn = (Connection) Conexion.conectar();
-
-        CalificacionesDAO calificacion = new CalificacionesDAO();
-
-        System.out.println("APROBADOS: "+calificacion.numAprobados(cnn, 1, 2012, 1));
-        System.out.println("MATRICULADOS: "+calificacion.numMatriculados(cnn, 1, 2012, 1));
-
-        System.out.println("APROBADOSxPROFESOR(1): "+calificacion.numAprobados(cnn, 1, 2012)  );
-        System.out.println("MATRICULADOSxPROFESOR(1) "+calificacion.numMatriculados(cnn, 1, 2012));
-
-
-        //creacion de un DTO de prueba existente en BD
-        dto.setAnio_mat_fk(2011);
-        dto.setId_alumno_fk(60);
-        dto.setCodasignatura_fk(21);
-        dto.setNota_p1(9.5);
-        dto.setNota_p2(9.5);
-        dto.setNota_p3(9.5);
-        dto.setNota_final(9.5);
-
-        calificacion.update(dto, cnn);
-
 
     }
 

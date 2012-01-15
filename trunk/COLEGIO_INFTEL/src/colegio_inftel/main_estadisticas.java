@@ -1,12 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/*
- * main_estadisticas.java
+/**
+ * Clase de referencia para la implementación de estadísticas y la carga de
+ * combos a partir de consultas a la capa DAO
  *
- * Created on 12-ene-2012, 0:28:39
+ * @author Agustín Pereña
+ * @version v1.0
  */
 package colegio_inftel;
 
@@ -16,7 +14,6 @@ import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.ProfesoresDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.ProfesoresDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
-import java.lang.Integer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;

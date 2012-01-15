@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * AsignaturasDAO.java
  */
 
 package es.uma.masterinftel.colegio_inftel.modelo.dao;
@@ -8,29 +7,44 @@ package es.uma.masterinftel.colegio_inftel.modelo.dao;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.AsignaturasDTO;
-import es.uma.masterinftel.colegio_inftel.modelo.dto.CursosDTO;
-import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
+ * Clase DAO (Data Access Object) para el acceso al modelo (Asignaturas)
  *
- * @author Agustin Pereña
+ * @author Agustín Pereña
+ * @version v1.0 
  */
 public class AsignaturasDAO extends GenericDAO {
 
+    /**
+     * Sentencia SQL para obtener el listado de asignaturas
+     */
     public static final String SQL_SELECT_ASIGNATURAS =
            "SELECT * FROM ASIGNATURAS;";
 
+    /**
+     * Sentencia SQL para obtener las asignaturas de un profesor
+     */
     public static final String SQL_SELECT_ASIGNATURAS_PROFESOR =
            "SELECT * FROM ASIGNATURAS WHERE profesor_id_fk=?;";
 
+    /**
+     * Sentencia SQL para obtener la descripción de una asignatura por código
+     */
     public static final String SQL_SELECT_ASIGNATURAS_POR_CODIGO =
            "SELECT desc FROM ASIGNATURAS WHERE codasignatura=?;";
 
 
+    /**
+     * Obtiene el nombre de una asignatura dado su código
+     * @param cnn       Conexión a la BD
+     * @param codigo    Código de la asignatura
+     * @return nombre del asignatura
+     * @throws java.sql.SQLException
+     */
     public String obtenerNombreAsignatura(Connection cnn, Integer codigo) throws SQLException {
 
         PreparedStatement ps = null;
@@ -53,6 +67,12 @@ public class AsignaturasDAO extends GenericDAO {
         return descAsignatura;
 
     }
+    /**
+     * Obtiene todas las asignaturas impartidas en el colegio
+     * @param conn Conexión a la BD
+     * @return Lista de Asignaturas
+     * @throws java.sql.SQLException
+     */
     public ArrayList<AsignaturasDTO> obtenerAsignaturas(Connection conn) throws SQLException {
 
         PreparedStatement ps = null;
@@ -67,15 +87,17 @@ public class AsignaturasDAO extends GenericDAO {
                 //Creamos la lista con todos los objetos asignaturas
                 while (rs.next()){
 
+                    //Creación del DTO Asignatura
                     AsignaturasDTO dto = new AsignaturasDTO();
-                    
+
+                    //Seteamos las propiedades del DTO
                     dto.setCodasignatura(rs.getInt("codasignatura"));
                     dto.setDesc(rs.getString("desc"));
                     dto.setProfesor_id_fk(rs.getInt("profesor_id_fk"));
                     dto.setImparte_cursos_id_fk(rs.getInt("imparte_cursos_id_fk"));
 
+                    //Lo añadimos a la lista
                     asignaturas.add(dto);
-
                 }
 
             }
@@ -95,6 +117,13 @@ public class AsignaturasDAO extends GenericDAO {
 
 
 
+    /**
+     * Obtiene las asignaturas que imparte un profesor
+     * @param conn          Conexión a la BD
+     * @param id_profesor   Identificador del profesor
+     * @return Lista de asignaturas de un profesor dado
+     * @throws java.sql.SQLException
+     */
     public ArrayList<AsignaturasDTO> obtenerAsignaturasByProfesor(Connection conn, Integer id_profesor) throws SQLException {
 
         PreparedStatement ps = null;
@@ -109,7 +138,6 @@ public class AsignaturasDAO extends GenericDAO {
 
                 //Creamos la lista con todos los objetos asignaturas
                 while (rs.next()){
-
                     AsignaturasDTO dto = new AsignaturasDTO();
 
                     dto.setCodasignatura(rs.getInt("codasignatura"));
@@ -118,7 +146,6 @@ public class AsignaturasDAO extends GenericDAO {
                     dto.setImparte_cursos_id_fk(rs.getInt("imparte_cursos_id_fk"));
 
                     asignaturas.add(dto);
-
                 }
 
             }
@@ -135,36 +162,6 @@ public class AsignaturasDAO extends GenericDAO {
         }
 
     }
-
-
-
-
-    public static void main(String[] args) throws SQLException{
-        ArrayList res;
-
-        System.out.println("Probando AsignaturasDAO....");
-
-
-        Connection cnn = (Connection) Conexion.conectar();
-        AsignaturasDAO dao = new AsignaturasDAO();
-
-        //res = dao.obtenerAsignaturas(cnn);
-        res = dao.obtenerAsignaturasByProfesor(cnn, 1);
-
-        Iterator i = res.listIterator();
-        while(i.hasNext()){
-            AsignaturasDTO a = (AsignaturasDTO) i.next();
-
-            System.out.println(a.getCodasignatura()+","+a.getDesc()+","+a.getProfesor_id_fk()+","+a.getImparte_cursos_id_fk());
-
-        }
-
-
-    }
-
-
-
-
 
 
 }

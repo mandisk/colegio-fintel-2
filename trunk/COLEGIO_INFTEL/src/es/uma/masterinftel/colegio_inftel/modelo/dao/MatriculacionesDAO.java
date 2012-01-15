@@ -8,7 +8,6 @@ package es.uma.masterinftel.colegio_inftel.modelo.dao;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.MatriculacionesDTO;
-import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import es.uma.masterinftel.colegio_inftel.utilidades.MatriculadosAsignaturas;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,14 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Clase DAO (Data Access Object) para el acceso al modelo (Cursos)
  *
- * @author Agustin Pereña
+ * @author Agustín Pereña
+ * @version v1.0
  */
 public class MatriculacionesDAO extends GenericDAO {
 
+    /**
+     * Sentencia SQL para obtener el año actual del curso escolar
+     */
     public static final String SQL_SELECT_ANIO_MATRICULACION =
            "SELECT MAX(anio_mat) FROM MATRICULACIONES;";
 
+    /**
+     * Sentencia SQL para actualizar las incidecias de un alumno
+     */
     public static final String SQL_UPDATE_INCIDENCIAS =
            "UPDATE MATRICULACIONES SET " +
            "faltas_acumuladas = ?, retardos = ?, saciones = ?, observaciones = ? " +
@@ -31,9 +38,15 @@ public class MatriculacionesDAO extends GenericDAO {
            "anio_mat = ? AND " +
            "id_alumno_fk = ?";
 
+    /**
+     * Sentencia SQL para obtener los distintos años escolares
+     */
     public static final String SQL_ANIOS_MATRICULACIONES =
             "SELECT DISTINCT(anio_mat) FROM MATRICULACIONES;";
 
+    /**
+     * Sentencia SQL para obtener las matriculaciones de una asignatura
+     */
     public static final String SQL_MATRICULADOS_ASIGNATURAS =
             "SELECT B.CODASIGNATURA AS 'ASIGNATURA', COUNT(A.ID_ALUMNO_FK) AS 'ALUMNOS' "+
             "FROM MATRICULACIONES A, ASIGNATURAS B "+
@@ -42,6 +55,13 @@ public class MatriculacionesDAO extends GenericDAO {
             "GROUP BY B.CODASIGNATURA;";
 
 
+    /**
+     * Obtiene las matriculaciones de una asignatura
+     * @param cnn       Conexión a la BD
+     * @param anio_mat  Año de matriculación
+     * @return Lista de Matriculaciones
+     * @throws java.sql.SQLException
+     */
     public ArrayList<MatriculadosAsignaturas> obtenerNumMatriculadosAsignatura(Connection cnn, Integer anio_mat)
                                 throws SQLException{
 
@@ -67,6 +87,13 @@ public class MatriculacionesDAO extends GenericDAO {
 
         return listaMatriculados;
     }
+
+    /**
+     *
+     * @param dto       DTO Matriculaciones
+     * @param conexion  Conexión a la BD
+     * @throws java.sql.SQLException
+     */
     public void update(MatriculacionesDTO dto, Connection conexion) throws SQLException{
         PreparedStatement ps = null;
         try {
@@ -87,6 +114,12 @@ public class MatriculacionesDAO extends GenericDAO {
 
 
 
+    /**
+     * Devuelve el año escolar actual
+     * @param conexion Conexión a la BD
+     * @return Año escolar en curso
+     * @throws java.sql.SQLException
+     */
     public Integer obtener_anio_matricula(Connection conexion) throws SQLException {
         
         PreparedStatement ps = null;
@@ -111,6 +144,12 @@ public class MatriculacionesDAO extends GenericDAO {
     }
 
 
+    /**
+     * Obtiene los distintos años escolar impartidos en el colegio
+     * @param conexion Conexión a la BD
+     * @return Lista de años escolares
+     * @throws java.sql.SQLException
+     */
     public List<Integer> obtener_anios_matriculaciones(Connection conexion) throws SQLException {
 
         PreparedStatement ps = null;
@@ -135,48 +174,5 @@ public class MatriculacionesDAO extends GenericDAO {
         return anios;
         
     }
-
-
-
-
-    public static void main(String[] args) throws SQLException{
-        System.out.println("Probando MatriculacionesDAO....");
-
-        ArrayList<Integer> prueba;
-        
-        Connection cnn = (Connection) Conexion.conectar();
-
-        MatriculacionesDAO mat = new MatriculacionesDAO();
-
-        prueba=(ArrayList) mat.obtener_anios_matriculaciones(cnn);
-
-        System.out.println("Tamaño: "+prueba.size());
-        for(Integer i: prueba){
-            System.out.println(i);
-        }
-  
-        System.out.println("AÑO ESCOLAR: "+mat.obtener_anio_matricula(cnn));
-
-      //Probar actualizacion MatriculacionesDAO
-
-        System.out.println("Probando MatriculacionesDAO....");
-
-        MatriculacionesDTO dto = new MatriculacionesDTO();
-        MatriculacionesDAO incidencia = new MatriculacionesDAO();
-
-
-
-
-        //creacion de un DTO de prueba existente en BD
-        dto.setAnio_mat(2011);
-        dto.setId_alumno_fk(60);
-        dto.setFaltas_acumuladas(2);
-        dto.setRetardos(1);
-        dto.setSanciones(1);
-        dto.setObservaciones("No hace los deberes frecuentemente");
-        incidencia.update(dto, cnn);
-
-    }
-
 
 }

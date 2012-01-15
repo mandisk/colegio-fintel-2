@@ -1,13 +1,14 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Constantes.java
  */
 
 package es.uma.masterinftel.colegio_inftel.utilidades;
 
 /**
+ * Clase utilidades para la creación de CONSTANTES del aplicativo
  *
- * @author agumpg
+ * @author Agustín Pereña
+ * @version v1.0 Diciembre-2011
  */
 public class Constantes {
 
