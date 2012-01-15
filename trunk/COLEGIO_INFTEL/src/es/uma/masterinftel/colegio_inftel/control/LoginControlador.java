@@ -16,8 +16,8 @@ import java.sql.SQLException;
  * se ocupa de gestionar la validaciónd del usuario de cara al acceso al 
  * sistema.
  * 
- * @author jesus
- * @version 1.0, 13 Ene 2012
+ * @author Jesus Barriga
+ * @version 1.0, Diciembre-2011
  * 
  */
 
