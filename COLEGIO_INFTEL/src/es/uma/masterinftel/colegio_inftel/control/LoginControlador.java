@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * se ocupa de gestionar la validaciónd del usuario de cara al acceso al 
  * sistema.
  * 
- * @author Jesus Barriga
+ * @author Jesús Barriga
  * @version 1.0, Diciembre-2011
  * 
  */
@@ -49,6 +49,7 @@ public class LoginControlador {
      *
      * @param clear Cadena a codidifcar
      * @return Cadena con la coficación en md5 de la cadena de entrada.
+     * @throws java.lang.Exception
      */
     private static String md5(String clear) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -72,6 +73,7 @@ public class LoginControlador {
      *
      * @param rol Rol del usuario (profesor o jefe de estudios)
      * @param idProfesor Id del usuario
+     * @throws java.sql.SQLException
      */
     private void navegacion(Integer rol, Integer idProfesor) throws SQLException {
         EscuelaModeloDAO next_modelo = new EscuelaModeloDAO();
