@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * ProfesoresDAO es la clase DAO (Data Access Object) del modelo para el acceso  
  * a objetos ProfesoresDTO.
  * 
- * @author Jesus Barriga
+ * @author Jesús Barriga
  * @version 1.0, Diciembre-2011
  * 
  */
@@ -23,14 +23,13 @@ public class ProfesoresDAO extends GenericDAO {
      */
     public static final String SQL_PROFESORES =
             "SELECT * FROM PROFESORES;";
-    
     /**
      * Sentencia SQL para recuperar el profesor cuyo campo usuario se le pasa
      * como parámetro.
      */
     public static final String SQL_PROFESORES_POR_USUARIO =
-            "SELECT * FROM PROFESORES WHERE " +
-            "usuario = ?";
+            "SELECT * FROM PROFESORES WHERE "
+            + "usuario = ?";
 
     /**
      * Consulta de todos los profesores

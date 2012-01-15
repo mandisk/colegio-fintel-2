@@ -11,7 +11,7 @@ import java.sql.Connection;
  * RolProfesoresDAO es la clase DAO (Data Access Object) del modelo para el acceso  
  * a objetos RolProfesorDTO.
  * 
- * @author Jesus Barriga
+ * @author Jesús Barriga
  * @version 1.0, Diciembre-2011
  * 
  */
@@ -22,7 +22,7 @@ public class RolProfesorDAO extends GenericDAO {
      */
     public static final String SQL_ROLES_BY_ID =
             "SELECT * FROM ROL_PROFESOR WHERE id_profesor_fk = ?";
-   
+
     /**
      * Consulta del rol de un profesor a partir de su identificador
      * 
