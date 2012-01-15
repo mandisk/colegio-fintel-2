@@ -94,6 +94,7 @@ public class EscuelaControlador {
         vista.addAnotarNotasListener(new CalificacionesListener());
         vista.addAnotarIncidenciasListener(new IncidenciasListener());
         vista.addVerEstadisticasListener(new EstadisticasListener());
+        vista.addComboListener(new ComboListener());
 
         initComponent_Vista();
       
@@ -151,6 +152,75 @@ public class EscuelaControlador {
 
 
             Connection cnn = (Connection) Conexion.conectar();
+          //  AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
+         //   AsignaturasDTO asignaturasDTO = new AsignaturasDTO();
+            CursosDAO cursosDAO = new CursosDAO();
+            CursosDTO cursosDTO = new CursosDTO();
+
+            System.out.println("id profesor:"+m_vista.getIdProfesor());
+
+            if (m_vista.bJefeDeEstudios) {
+                //es jefe de estudios
+             //   listaAsig = asignaturasDAO.obtenerAsignaturas(cnn);
+                listaCur = cursosDAO.obtenerCursos(cnn);
+
+         } else {
+                //no es jefe de estudios
+            //    listaAsig = asignaturasDAO.obtenerAsignaturasByProfesor(cnn, m_vista.getIdProfesor());
+                listaCur = cursosDAO.obtenerCursosByProfesor(cnn, m_vista.getIdProfesor());
+            }
+
+            //Carga del combo Asignaturas
+           // Iterator itAsig = listaAsig.iterator();
+          //  while( itAsig.hasNext()){
+          //      asignaturasDTO = (AsignaturasDTO) itAsig.next();
+          //      ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
+          //                                  asignaturasDTO.getDesc());
+          //      m_vista.comboAsignatura.addItem(obj);
+          //  }
+
+
+            //Carga del combo Cursos
+            Iterator itCur = listaCur.iterator();
+            while( itCur.hasNext()){
+                cursosDTO = (CursosDTO) itCur.next();
+                ObjCombo obj = new ObjCombo(cursosDTO.getId(),
+                                            cursosDTO.getDesc());
+                m_vista.comboCurso.addItem(obj);
+            }
+
+
+            //Carga del combo Grupos correspondiente al primer curso
+           // GruposDAO gruposDAO = new GruposDAO();
+          //  GruposDTO gruposDTO = new GruposDTO();
+
+            //listaGru = gruposDAO.obtenerGruposByCurso(cnn,((ObjCombo) m_vista.comboCurso.getItemAt(0)).getId());
+
+
+          //  Iterator itGru = listaGru.iterator();
+         //   while( itGru.hasNext()){
+         //       gruposDTO = (GruposDTO) itGru.next();
+         //       ObjCombo obj = new ObjCombo(gruposDTO.getId(),
+         //                                   gruposDTO.getDesc());
+         //       m_vista.comboGrupo.addItem(obj);
+         //   }
+
+    }
+
+
+
+
+    class ComboListener implements ActionListener  {
+    public void actionPerformed(ActionEvent e) {
+        //Limpiamos Combos
+        m_vista.comboAsignatura.removeAllItems();
+        m_vista.comboGrupo.removeAllItems();
+        //Obtenemos curso seleccionado
+        int curso = m_vista.getCurso();
+        ArrayList listaAsig, listaCur, listaGru;
+
+            try{
+            Connection cnn = (Connection) Conexion.conectar();
             AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
             AsignaturasDTO asignaturasDTO = new AsignaturasDTO();
             CursosDAO cursosDAO = new CursosDAO();
@@ -173,27 +243,72 @@ public class EscuelaControlador {
             Iterator itAsig = listaAsig.iterator();
             while( itAsig.hasNext()){
                 asignaturasDTO = (AsignaturasDTO) itAsig.next();
-                ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
+               int asignatura = asignaturasDTO.getCodasignatura();
+                switch(curso) {
+                    case 1: 
+                        if(asignatura>0 && asignatura<6){
+                        ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
                                             asignaturasDTO.getDesc());
-                m_vista.comboAsignatura.addItem(obj);
+                        m_vista.comboAsignatura.addItem(obj);
+                        }
+                        break;
+                    case 2: 
+                        if(asignatura>5 && asignatura<11){
+                        ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
+                                            asignaturasDTO.getDesc());
+                        m_vista.comboAsignatura.addItem(obj);
+                        }
+                        break;
+                    case 3: 
+                        if(asignatura>10 && asignatura<16){
+                        ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
+                                            asignaturasDTO.getDesc());
+                        m_vista.comboAsignatura.addItem(obj);
+                        }
+                        break;
+                    case 4: 
+                        if(asignatura>15 && asignatura<21){
+                        ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
+                                            asignaturasDTO.getDesc());
+                        m_vista.comboAsignatura.addItem(obj);
+                        }
+                        break;
+                    case 5: 
+                        if(asignatura>20 && asignatura<26){
+                        ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
+                                            asignaturasDTO.getDesc());
+                        m_vista.comboAsignatura.addItem(obj);
+                        }
+                        break;
+                    case 6: 
+                        if(asignatura>25 && asignatura<31){
+                        ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
+                                            asignaturasDTO.getDesc());
+                        m_vista.comboAsignatura.addItem(obj);
+                        }
+                        break;
+              }
+
+                
+               
             }
 
 
             //Carga del combo Cursos
-            Iterator itCur = listaCur.iterator();
-            while( itCur.hasNext()){
-                cursosDTO = (CursosDTO) itCur.next();
-                ObjCombo obj = new ObjCombo(cursosDTO.getId(),
-                                            cursosDTO.getDesc());
-                m_vista.comboCurso.addItem(obj);
-            }
+           // Iterator itCur = listaCur.iterator();
+           // while( itCur.hasNext()){
+           //     cursosDTO = (CursosDTO) itCur.next();
+           //     ObjCombo obj = new ObjCombo(cursosDTO.getId(),
+                               //             cursosDTO.getDesc());
+           //     m_vista.comboCurso.addItem(obj);
+           // }
 
 
             //Carga del combo Grupos correspondiente al primer curso
             GruposDAO gruposDAO = new GruposDAO();
             GruposDTO gruposDTO = new GruposDTO();
 
-            listaGru = gruposDAO.obtenerGruposByCurso(cnn,((ObjCombo) m_vista.comboCurso.getItemAt(0)).getId());
+            listaGru = gruposDAO.obtenerGruposByCurso(cnn,((ObjCombo) m_vista.comboCurso.getItemAt(curso-1)).getId());
 
 
             Iterator itGru = listaGru.iterator();
@@ -203,13 +318,13 @@ public class EscuelaControlador {
                                             gruposDTO.getDesc());
                 m_vista.comboGrupo.addItem(obj);
             }
-
+            } catch (Exception ev)
+                                {
+                          ev.printStackTrace();
+                  }
+    
     }
-
-
-
-
-
+    }
     
     class SearchListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
