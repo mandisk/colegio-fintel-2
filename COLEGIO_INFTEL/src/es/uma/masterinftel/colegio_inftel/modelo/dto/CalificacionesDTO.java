@@ -71,7 +71,7 @@ public class CalificacionesDTO {
 
     /**
      * Método Get nota del tercer parcial
-     * @return
+     * @return Nota del tercer parcial
      */
     public Double getNota_p3() {
         return nota_p3;
