@@ -1,8 +1,3 @@
-/*
- * LoginVista.java
- *
- */
-
 package es.uma.masterinftel.colegio_inftel.vistas;
 
 import es.uma.masterinftel.colegio_inftel.modelo.dao.*;
@@ -17,18 +12,18 @@ import javax.swing.JOptionPane;
  * @version v1.0 Diciembre-2011
  */
 public class LoginVista extends javax.swing.JFrame {
-    
+
     /**
      * Constructor de la clase, especificando el modelo y la vista.
      *
      * @param modelo El modelo utilizado con los datos del usuario
      */
     public LoginVista(ProfesoresDAO modelo) {
-        
+
         initComponents();
-        
+
         //Centramos la ventana en pantalla
-        this.setLocationRelativeTo(null); 
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -141,18 +136,13 @@ public class LoginVista extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-
     }//GEN-LAST:event_txtPasswordActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
@@ -168,7 +158,7 @@ public class LoginVista extends javax.swing.JFrame {
      *
      * @param a Acción
      */
-    public void addAceptarListener(ActionListener a){
+    public void addAceptarListener(ActionListener a) {
         btnAceptar.addActionListener(a);
     }
 
@@ -177,11 +167,11 @@ public class LoginVista extends javax.swing.JFrame {
      *
      * @param a Acción
      */
-    public void addCancelarListener(ActionListener a){
+    public void addCancelarListener(ActionListener a) {
         btnCancelar.addActionListener(a);
     }
-    
-     /**
+
+    /**
      * Devuelve en un string el usuario introducido
      *
      * @return Cadena con el usuario
@@ -202,6 +192,8 @@ public class LoginVista extends javax.swing.JFrame {
     /**
      * Muestra en pantalla un mensaje indicando que el usuario o la password
      * introducidas no son válidas.
+     * 
+     * @see javax.swing.JOptionPane
      */
     public void printMensajeUserPassIncorrectos() {
         JOptionPane.showMessageDialog(this,
@@ -211,21 +203,25 @@ public class LoginVista extends javax.swing.JFrame {
     /**
      * Muestra en pantalla un mensaje indicando que no se han intoruducido el
      * usuario o la contraseña.
+     * 
+     * @see javax.swing.JOptionPane
      */
     public void printMensajeUserPassVacios() {
         JOptionPane.showMessageDialog(this,
                 "Debe introducir usuario y password");
     }
-  
+
     /**
      * Muestra en pantalla un mensaje informativo indicando que se ha producido
      * un error validando el usuario / password introducidos.
+     * 
+     * @see javax.swing.JOptionPane
      */
     public void printMensajeErrorValidacion() {
         JOptionPane.showMessageDialog(this,
                 "Se ha producido un error validando usuario y password");
     }
-    
+
     /**
      * Provoca la salida de la aplicación. Este método es invocado desde el 
      * controlador para finalizar la apliación al pulsar éste el botón Cancelar.
@@ -233,7 +229,7 @@ public class LoginVista extends javax.swing.JFrame {
     public void salir() {
         System.exit(0);
     }
-    
+
     /**
      * Mediante este método se consigue que al mostrarse la vista, el foco 
      * esté asignado al campo correspondiente a la introducción del usuario.
@@ -241,7 +237,7 @@ public class LoginVista extends javax.swing.JFrame {
     public void focoInicial() {
         txtUsuario.grabFocus();
     }
-    
+
     /**
      * Método main que posibilita que esta vista lance la aplicación como
      * ventana inicial de la misma.
@@ -250,12 +246,13 @@ public class LoginVista extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
-                
+
                 ProfesoresDAO modelo = new ProfesoresDAO();
                 LoginVista vista = new LoginVista(modelo);
-                LoginControlador control = new LoginControlador(modelo,vista);
-  
+                LoginControlador control = new LoginControlador(modelo, vista);
+
                 vista.setVisible(true);
             }
         });
