@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 
 /**
- * RolProfesoresDAO es la clase DAO (Data Access Object) para el acceso al
- * modelo (rol_profesor). 
+ * RolProfesoresDAO es la clase DAO (Data Access Object) del modelo para el acceso  
+ * a objetos RolProfesorDTO.
  * 
  * @author Jesus Barriga
  * @version 1.0, Diciembre-2011
@@ -26,6 +26,7 @@ public class RolProfesorDAO extends GenericDAO {
     /**
      * Consulta del rol de un profesor a partir de su identificador
      * 
+     * @param idProfesor Identificador del profesor cuyo rol se desea recuperar
      * @return objeto RolProfesorDTO con el rol del profesor
      * @throws java.sql.SQLException
      */

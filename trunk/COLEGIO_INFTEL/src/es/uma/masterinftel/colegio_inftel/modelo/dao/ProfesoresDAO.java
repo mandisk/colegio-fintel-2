@@ -9,8 +9,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 /**
- * ProfesoresDAO es la clase DAO (Data Access Object) para el acceso al 
- * modelo (profesores). 
+ * ProfesoresDAO es la clase DAO (Data Access Object) del modelo para el acceso  
+ * a objetos ProfesoresDTO.
  * 
  * @author Jesus Barriga
  * @version 1.0, Diciembre-2011
