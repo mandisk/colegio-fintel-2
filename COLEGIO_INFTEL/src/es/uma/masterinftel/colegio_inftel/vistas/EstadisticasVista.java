@@ -1,30 +1,29 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * EstadisticasVista.java
  */
 
-/*
- * EstadisticasVista.java
- *
- * Created on 08-ene-2012, 14:06:37
- */
 package es.uma.masterinftel.colegio_inftel.vistas;
 import es.uma.masterinftel.colegio_inftel.control.EstadisticasControlador;
-import es.uma.masterinftel.colegio_inftel.utilidades.Asignatura;
-import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
-import es.uma.masterinftel.colegio_inftel.utilidades.Profesor;
+import es.uma.masterinftel.colegio_inftel.utilidades.ObjCombo;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Proyectos
+ * Vista para la eleccion de graficas estadisticas
+ * 
+ * @author Luis Jarén
+ * @version v1.0 Diciembre-2011
  */
 public class EstadisticasVista extends javax.swing.JDialog {
 
-    /** Creates new form EstadisticasVista */
+    /**
+     * Constructor de clase
+     * @param parent ventana padre de Anotar Incidencia Vista
+     * @param modal si true se visualiza de forma Modal
+     */
+
     public EstadisticasVista(java.awt.Frame parent, boolean modal) throws SQLException {
         super(parent, modal);
         initComponents();
@@ -274,65 +273,41 @@ public class EstadisticasVista extends javax.swing.JDialog {
 }//GEN-LAST:event_btnEstadistica1ActionPerformed
 
     private void btnEstadistica3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadistica3ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnEstadistica3ActionPerformed
-
+    /**
+     * Acción para cambios en el combo profesor
+     * @param evt Evento
+     */
     private void profesorComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_profesorComboBoxItemStateChanged
-        // TODO add your handling code here:
-        Profesor profesor = (Profesor) profesorComboBox.getSelectedItem();
-        System.out.println("ID: " + profesor.id);
+        
+        ObjCombo profesor = (ObjCombo) profesorComboBox.getSelectedItem();
+        System.out.println("ID: " + profesor.getId());
     }//GEN-LAST:event_profesorComboBoxItemStateChanged
-
+    /**
+     * Acción para cambios en el combo asignatura
+     * @param evt Evento
+     */
     private void asignaturaComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_asignaturaComboBoxItemStateChanged
-        // TODO add your handling code here:
-        Asignatura asignatura = (Asignatura) asignaturaComboBox.getSelectedItem();
+        
+        ObjCombo asignatura = (ObjCombo) asignaturaComboBox.getSelectedItem();
         System.out.println("ID: " + asignatura.getId());
     }//GEN-LAST:event_asignaturaComboBoxItemStateChanged
-
+    /**
+     * Acción para cambios en el combo curso
+     * @param evt Evento
+     */
     private void cursoComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cursoComboBoxItemStateChanged
-        // TODO add your handling code here:
-        Curso curso = (Curso) cursoComboBox.getSelectedItem();
+        
+        ObjCombo curso = (ObjCombo) cursoComboBox.getSelectedItem();
         System.out.println("ID: " + curso.getId());
     }//GEN-LAST:event_cursoComboBoxItemStateChanged
 
     private void anioMatriculadosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anioMatriculadosComboBoxActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_anioMatriculadosComboBoxActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) throws SQLException {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EstadisticasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EstadisticasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EstadisticasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EstadisticasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        EstadisticasVista vista=new EstadisticasVista(new javax.swing.JFrame(), false);
-        EstadisticasControlador controlador = new EstadisticasControlador(vista);
-        vista.setVisible(true);
-
-
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox anioMatriculadosComboBox;
     public javax.swing.JComboBox asignaturaComboBox;
@@ -354,40 +329,66 @@ public class EstadisticasVista extends javax.swing.JDialog {
     public javax.swing.JComboBox profesorComboBox;
     // End of variables declaration//GEN-END:variables
 
+      /**
+     * Devuelve la asignatura seleccionada en el combo
+     * @return Asignatura seleccionada
+     */
+
     public String getAsignatura(){
         return asignaturaComboBox.getSelectedItem().toString();
     }
+      /**
+     * Devuelve el curso seleccionado en el combo
+     * @return Curso seleccionado
+     */
+
     public String getCurso(){
         return cursoComboBox.getSelectedItem().toString();
     }
+
+      /**
+     * Devuelve el profesor seleccionado
+     * @return Profesor seleccionado
+     */
+
     public String getProfesor(){
         return profesorComboBox.getSelectedItem().toString();
     }
-    public int getAnioProfesor(){
-        return new Integer(anioMatriculadosComboBox.getSelectedItem().toString());
-    }
+
+      /**
+     * Devuelve el año de matriculacion seleccionado en el combo
+     * @return año de matriculacion seleccionado
+     */
+
     public int getAnioMatriculados(){
         return new Integer (anioMatriculadosComboBox.getSelectedItem().toString());
     }
-    public JComboBox getProfesorComboBox(){
-        return profesorComboBox;
-    }
-     public JComboBox getAnioMatriculadosComboBox(){
-        return anioMatriculadosComboBox;
-    }
-//    public int getAnioCurso(){
-//        return new Integer(anioCursoComboBox.getSelectedItem().toString());
-//    }
+    
+    /**
+     * Acción para crear y dibujar estadistica1 (asociado al botón MOSTRAR ESTADISTICA 1)
+     * @param a Acción
+     */
     public void addEstadistica1Listener(ActionListener a){
         btnEstadistica1.addActionListener(a);
     }
+    /**
+     * Acción para crear y dibujar estadistica2 (asociado al botón MOSTRAR ESTADISTICA 2)
+     * @param a Acción
+     */
     public void addEstadistica2Listener(ActionListener a){
         btnEstadistica2.addActionListener(a);
     }
+    /**
+     * Acción para crear y dibujar estadistica3 (asociado al botón MOSTRAR ESTADISTICA 3)
+     * @param a Acción
+     */
     public void addEstadistica3Listener(ActionListener a){
         btnEstadistica3.addActionListener(a);
     }
-    
+    /**
+     * Muestra Dialogod de Error, al no haber datos
+     * para realizar la grafica de la estadistica
+     */
     public void printMensajeSinDatos() {
         JOptionPane.showMessageDialog(this,
                 "No hay datos para mostrar");
