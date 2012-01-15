@@ -5,15 +5,10 @@
 
 package es.uma.masterinftel.colegio_inftel.control;
 
-import es.uma.masterinftel.colegio_inftel.vistas.AnotarNotasVista;
-import es.uma.masterinftel.colegio_inftel.vistas.EscuelaVistaPrincipal;
-import es.uma.masterinftel.colegio_inftel.utilidades.*;
 import es.uma.masterinftel.colegio_inftel.vistas.*;
 import com.mysql.jdbc.Connection;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.CalificacionesDTO;
-import es.uma.masterinftel.colegio_inftel.modelo.dao.EscuelaModeloDAO;
-import es.uma.masterinftel.colegio_inftel.modelo.dto.EscuelaModeloDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,22 +23,23 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
- * Controlador para la vista/modelo Anotar Notas
+ * Controlador para Anotar Notas
  *
  * @author Agustín Pereña
+ * @version v1.0 Diciembre-2011
  */
 public class AnotarNotasControlador {
     
-    //Variables inicializadas
-    int curso=1;
-    int grupo=1;
-
     private CalificacionesDAO   m_modelo;
     private AnotarNotasVista    m_vista;
-    //private EscuelaVistaPrincipal m_vista_principal;
-   // private EscuelaModeloDAO m_modelo_principal;
 
+    /**
+     * Constructor de la clase
+     * @param modelo clase DAO de acceso a datos
+     * @param vista clase formulario para visualización
+     */
     public AnotarNotasControlador(CalificacionesDAO modelo, AnotarNotasVista vista){
 
         m_modelo = modelo;
@@ -56,7 +52,11 @@ public class AnotarNotasControlador {
 
     }
 
-
+    /**
+     * Verifica si se trata de una nota de examen válido
+     * @param   text Nota de examen
+     * @return  true si 0<=nota<=10, false en caso contrario
+     */
     private boolean notaValida(String text) {
 
         boolean ok=false;
@@ -81,6 +81,11 @@ public class AnotarNotasControlador {
         return ok;
     }
 
+    /**
+     * Calculo de nota media
+     * @param notas ArrayList de notas
+     * @return media de todas las notas contenidas en el ArrayList
+     */
     private Double calcularMedia(ArrayList<Double> notas){
         Double media= new Double(0.0);
 
@@ -92,7 +97,9 @@ public class AnotarNotasControlador {
         return media;
     }
 
-
+    /**
+     * Listener para el botón GUARDAR
+     */
     class GuardarListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -109,14 +116,13 @@ public class AnotarNotasControlador {
                         dto.setAnio_mat_fk(m_vista.getAnio_mat());
                         dto.setId_alumno_fk(m_vista.getId_alumno());
                         dto.setCodasignatura_fk(m_vista.getCodasignatura());
-
                         dto.setNota_p1(m_vista.getN1());
                         dto.setNota_p2(m_vista.getN2());
                         dto.setNota_p3(m_vista.getN3());
                         dto.setNota_final(m_vista.getNFinal());
-                        //Notas nota = new Notas(m_vista.getN1(),m_vista.getN2(),m_vista.getN3(),m_vista.getNFinal());
+                  
                         try {
-                            System.out.println(dto.toString());
+                            //Actualización de notas en el modelo
                             m_modelo.update(dto, cnn);
                         } catch (SQLException ex) {
                             Logger.getLogger(AnotarNotasControlador.class.
@@ -128,30 +134,34 @@ public class AnotarNotasControlador {
                     }
                 }
             };
-
+            //Creación de hebra para evitar bloqueo interfaz
             Thread hilo = new Thread(miRunnable);
             hilo.start();
+            //Cerramos la vista
             m_vista.setVisible(false);
         }
     }
 
+    /**
+     * Listener para ocutar la vista al pulsar botón CERRAR
+     */
     class CerrarListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-          EscuelaModeloDAO next_modelo = new EscuelaModeloDAO();
-        EscuelaVistaPrincipal next_vista = new EscuelaVistaPrincipal(next_modelo);
-        EscuelaControlador next_controlador = new EscuelaControlador(next_modelo,next_vista); 
+    
             m_vista.setVisible(false);
-           //  int fila = next_vista.getFila();
-            next_vista.setNotas(m_vista.getN1(),6);
-      //      Notas n = new Notas(5,5,5,5);
+
         }
 
     }
 
-
+    /**
+     * Listener para el control de caracteres introducidos en los jTextField
+     * de las notas. Si no son caracteres válidos los descartamos.
+     */
     class ValidarNotasListener implements KeyListener {
 
+        @Override
         public void keyTyped(KeyEvent evt) {
 
             Object origen = evt.getSource();
@@ -173,11 +183,13 @@ public class AnotarNotasControlador {
 
         }
 
+        @Override
         public void keyPressed(KeyEvent arg0) {
-           // throw new UnsupportedOperationException("No soportado");
+           // No hacemos nada
             
         }
 
+        @Override
         public void keyReleased(KeyEvent arg0) {
             
             Double media = calcularMedia(m_vista.getNotas());
@@ -192,13 +204,18 @@ public class AnotarNotasControlador {
 
     }
 
-
+    /**
+     * Formateo de la nota con dos decimales para visualización correcta en
+     * la vista
+     */
     class FormatearNotas implements FocusListener {
 
+        @Override
         public void focusGained(FocusEvent e) {
             //throw new UnsupportedOperationException("No Soportado");
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
            Object origen = e.getSource();
 

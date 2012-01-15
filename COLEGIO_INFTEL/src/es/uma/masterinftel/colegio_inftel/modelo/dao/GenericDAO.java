@@ -1,23 +1,27 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * GenericDAO.java
  */
 
 package es.uma.masterinftel.colegio_inftel.modelo.dao;
 
-import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * Clase Genérica que implementa métodos comunes para el resto de clases DAO
  *
- * @author Agustin Pereña
+ * @author Agustín Pereña
+ * @version v1.0
  */
 public class GenericDAO {
 
 
-    protected void cerrar(PreparedStatement ps) throws SQLException {
+    /**
+     * Cierre del PreparedStatement
+     * @param ps PreparedStatement
+     */
+    protected void cerrar(PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
@@ -27,6 +31,10 @@ public class GenericDAO {
         }
     }
 
+    /**
+     * Cierre del ResultSet
+     * @param rs ResultSet
+     */
     protected void cerrar(ResultSet rs) {
         if (rs != null) {
             try {

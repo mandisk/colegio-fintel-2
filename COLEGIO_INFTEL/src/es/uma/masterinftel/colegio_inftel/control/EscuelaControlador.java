@@ -6,16 +6,13 @@
 
 package es.uma.masterinftel.colegio_inftel.control;
 
-import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
 //import java.sql.Connection;
 import javax.swing.JOptionPane;
 import com.mysql.jdbc.Connection;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
-import es.uma.masterinftel.colegio_inftel.vistas.AnotarNotasVista;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.EscuelaModeloDAO;
 //import es.uma.masterinftel.colegio_inftel.modelo.dao.IncidenciasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
-import es.uma.masterinftel.colegio_inftel.vistas.EscuelaVistaPrincipal;
 import es.uma.masterinftel.colegio_inftel.vistas.*;
 import es.uma.masterinftel.colegio_inftel.utilidades.*;
 import java.awt.event.*;
@@ -64,7 +61,7 @@ public class EscuelaControlador {
 
         //Creación del formulario Anotar Calificaciones
         m_calificaciones = new CalificacionesDAO();
-        v_calificaciones = new AnotarNotasVista(m_calificaciones, m_vista, true);
+        v_calificaciones = new AnotarNotasVista(m_vista, true);
         c_calificaciones = new AnotarNotasControlador(m_calificaciones,v_calificaciones);
         
         //Creación del formulario Anotar Incidencias

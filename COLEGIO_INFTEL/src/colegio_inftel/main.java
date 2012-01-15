@@ -30,7 +30,7 @@ public class main extends javax.swing.JFrame {
 
         //modelo = new AnotarNotasModelo();
         modelo = new CalificacionesDAO();
-        vista = new AnotarNotasVista(modelo, this, true);
+        vista = new AnotarNotasVista(this, true);
         controlador = new AnotarNotasControlador(modelo,vista);
 
         this.setLocationRelativeTo(null);
