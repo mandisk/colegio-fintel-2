@@ -367,6 +367,9 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
     public void addVerEstadisticasListener(ActionListener a){
     btEstadisticas.addActionListener(a);
     }
+    public void addComboListener(ActionListener a){
+    comboCurso.addActionListener(a);
+    }
 /*********************************************************/
     public void setRolJefeDeEstudios(Integer rolUsuario,Integer idProfesor) {
       
