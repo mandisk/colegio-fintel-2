@@ -141,7 +141,7 @@ public class ProfesoresDTO {
 
     /**
      * Método Set
-     * @param id nombre nombre
+     * @param nombre nombre
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -157,7 +157,7 @@ public class ProfesoresDTO {
 
     /**
      * Método Set
-     * @param id password contraseña
+     * @param password contraseña
      */
     public void setPassword(String password) {
         this.password = password;
