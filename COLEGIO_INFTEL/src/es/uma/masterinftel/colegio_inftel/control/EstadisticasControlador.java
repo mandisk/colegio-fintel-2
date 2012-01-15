@@ -1,10 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * EstadisticasControlador.java
+ *
  */
 package es.uma.masterinftel.colegio_inftel.control;
 
 import com.mysql.jdbc.Connection;
+import es.uma.masterinftel.colegio_inftel.control.EscuelaControlador.ObjCombo;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.AsignaturasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CursosDAO;
@@ -13,11 +14,8 @@ import es.uma.masterinftel.colegio_inftel.modelo.dao.ProfesoresDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.AsignaturasDTO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.CursosDTO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.ProfesoresDTO;
-import es.uma.masterinftel.colegio_inftel.utilidades.Asignatura;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
-import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
 import es.uma.masterinftel.colegio_inftel.utilidades.MatriculadosAsignaturas;
-import es.uma.masterinftel.colegio_inftel.utilidades.Profesor;
 import es.uma.masterinftel.colegio_inftel.vistas.EstadisticasVista;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -35,30 +33,42 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
 /**
+ * Controlador para Estadisticas
  *
- * @author Proyectos
+ * @author Luis Jarén
+ * @version v1.0 Diciembre-2011
  */
 public class EstadisticasControlador {
-     //Necesitamos que el controlador interactue con el Modelo y la vista
-    //private EstadisticasModelo m_modelo;
+     
     private EstadisticasVista m_vista;
     
-    /** Constructor */
+    /**
+     * Constructor de la clase
+     *
+     * @param vista clase formulario para visualización
+     */
+
     public EstadisticasControlador( EstadisticasVista vista) {
         try{
-        //m_modelo = modelo;
+        
         m_vista = vista;
 
         //Aquí se localizan los métodos de escucha
         m_vista.addEstadistica1Listener(new Estadistica1Listener());
         m_vista.addEstadistica2Listener(new Estadistica2Listener());
         m_vista.addEstadistica3Listener(new Estadistica3Listener());
+
         cargarCombos();
         } catch (Exception e)
         {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Realiza la carga de los JComboBox de la vista Estadisticas
+     *
+     */
 
 
     private void cargarCombos() throws SQLException{
@@ -74,8 +84,12 @@ public class EstadisticasControlador {
     }
      //método para cargar combos
 
-    //método para cargar combo años matriculacion
-    public void cargarCombosAnio( ArrayList anios) throws SQLException, SQLException{
+    /**
+     * Realiza la carga de los items de los JComboBox años de matriculación
+     *
+     * @param anios array de años de matriculación
+     */
+    public void cargarCombosAnio( ArrayList anios) throws SQLException{
         //CARGA DEL COMBO AÑOS MATRICULACION
         System.out.println("Cargando combo años");
         MatriculacionesDAO matriculacionesDAO = new MatriculacionesDAO();
@@ -86,14 +100,18 @@ public class EstadisticasControlador {
         while (i.hasNext()) {
 
             Integer x = (Integer) i.next();
-            m_vista.getAnioMatriculadosComboBox().addItem(new Integer(x));
+            m_vista.anioMatriculadosComboBox.addItem(new Integer(x));
         }
 
         //Seleccionamos por defecto el año en curso
-        m_vista.getAnioMatriculadosComboBox().setSelectedIndex(anios.size() - 1);
+        m_vista.anioMatriculadosComboBox.setSelectedIndex(anios.size() - 1);
 
     }
-    //método para cargar combo profesores
+    /**
+     * Realiza la carga de los items de los JComboBox de nombres de profesores
+     *
+     * @param profesores array con los nombres de los profesores
+     */
     public void cargarComboProfesores(ArrayList profesores) throws SQLException{
 
         System.out.println("Cargando combo profesores");
@@ -104,17 +122,25 @@ public class EstadisticasControlador {
         ProfesoresDTO profesoresDTO = new ProfesoresDTO();
 
         while (j.hasNext()) {
-            Profesor profesor = new Profesor();
             profesoresDTO = (ProfesoresDTO) j.next();
-            profesor.nombre = profesoresDTO.getNombre() + " " + profesoresDTO.getApellido1() + " " + profesoresDTO.getApellido2();
-            profesor.id = profesoresDTO.getId();
-            m_vista.getProfesorComboBox().addItem(profesor);
+            String nombre = profesoresDTO.getNombre() + " " + profesoresDTO.getApellido1() + " " + profesoresDTO.getApellido2();
+            Integer id = profesoresDTO.getId();
+            ObjCombo profesor = null ;
+            profesor.id = id;
+            profesor.nombre=nombre;
+            m_vista.profesorComboBox.addItem(profesor);
         }
 
-        Profesor profesor = (Profesor) m_vista.getProfesorComboBox().getSelectedItem();
+        ObjCombo profesor = (ObjCombo) m_vista.profesorComboBox.getSelectedItem();
         System.out.println("ID: " + profesor.id);
     }
     //método para cargar combo asignaturas
+    /**
+     * Realiza la carga de los items de los JComboBox de asignaturas
+     *
+     * @param cnn conexion a la BD
+     * @param asignaturas array de asignaturas
+     */
     public void cargarComboAsignaturas(Connection cnn, ArrayList asignaturas) throws SQLException{
         System.out.println("Cargando combo asignaturas");
         AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
@@ -125,14 +151,23 @@ public class EstadisticasControlador {
         while (j.hasNext()) {
             
             asignaturasDTO = (AsignaturasDTO) j.next();
-            Asignatura asignatura = new Asignatura(asignaturasDTO.getDesc(),asignaturasDTO.getCodasignatura());
+            ObjCombo asignatura = null;
+            asignatura.nombre = asignaturasDTO.getDesc();
+            asignatura.id= asignaturasDTO.getCodasignatura();
             m_vista.asignaturaComboBox.addItem(asignatura);
         }
-        Asignatura asignatura = (Asignatura) m_vista.asignaturaComboBox.getSelectedItem();
+        ObjCombo asignatura = (ObjCombo) m_vista.asignaturaComboBox.getSelectedItem();
         System.out.println("ID: " + asignatura.getId());
 
     }
     //método para cargar combo cursos
+    /**
+     * Realiza la carga de los items de los JComboBox de cursos
+     *
+     * @param cnn conexion a BD
+     * @param cursos array de cursos
+     * 
+     */
     public void cargarComboCursos(Connection cnn, ArrayList cursos) throws SQLException{
         System.out.println("Cargando combo cursos");
         CursosDAO cursoDAO = new CursosDAO();
@@ -143,13 +178,19 @@ public class EstadisticasControlador {
         while (j.hasNext()) {
 
             cursosDTO = (CursosDTO) j.next();
-            Curso curso = new Curso(cursosDTO.getDesc(),Integer.toString(cursosDTO.getId()));
+            ObjCombo curso = null;
+            curso.nombre = cursosDTO.getDesc();
+            curso.id = cursosDTO.getId();
             m_vista.cursoComboBox.addItem(curso);
         }
-        Curso curso = (Curso) m_vista.cursoComboBox.getSelectedItem();
+        ObjCombo curso = (ObjCombo) m_vista.cursoComboBox.getSelectedItem();
         System.out.println("ID: " + curso.getId());
 
     }
+
+     /**
+     * Listener para el botón MOSTRAR ESTADISTICA 1
+     */
 
     public class Estadistica1Listener implements ActionListener {
 
@@ -161,19 +202,19 @@ public class EstadisticasControlador {
 
             try {
 
-                Asignatura asignatura = (Asignatura) m_vista.asignaturaComboBox.getSelectedItem();
-                Curso curso = (Curso) m_vista.cursoComboBox.getSelectedItem();
+                ObjCombo asignatura = (ObjCombo) m_vista.asignaturaComboBox.getSelectedItem();
+                ObjCombo curso = (ObjCombo) m_vista.cursoComboBox.getSelectedItem();
                 Integer numAprobados = null;
                 try {
                     numAprobados = calificacion.numAprobados(cnn, (Integer) asignatura.getId(),
-                            (Integer) m_vista.getAnioMatriculadosComboBox().getSelectedItem(),
-                            Integer.parseInt(curso.getId()));
+                            (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem(),
+                            curso.getId());
                 } catch (SQLException ex) {
                     Logger.getLogger(EstadisticasControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 Integer numMatriculados = calificacion.numMatriculados(cnn, asignatura.getId(),
-                        (Integer) m_vista.getAnioMatriculadosComboBox().getSelectedItem(),
-                        Integer.parseInt(curso.getId()));
+                        (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem(),
+                        curso.getId());
                 if (numMatriculados == 0) {
                     m_vista.printMensajeSinDatos();
                 } else {
@@ -190,7 +231,7 @@ public class EstadisticasControlador {
                             "(%) Aprobados y Suspensos en "
                             + m_vista.asignaturaComboBox.getSelectedItem()
                             + " de " + m_vista.cursoComboBox.getSelectedItem() + " ("
-                            + m_vista.getAnioMatriculadosComboBox().getSelectedItem() + ")", //Títrulo del gráfico
+                            + m_vista.anioMatriculadosComboBox.getSelectedItem() + ")", //Títrulo del gráfico
                             data,
                             true,//Leyenda
                             true,//ToolTips
@@ -202,6 +243,7 @@ public class EstadisticasControlador {
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
 
+                    //Listener para cerrar estadistica
                     frame.addWindowListener(new java.awt.event.WindowAdapter(){
                         public void windowClosing(WindowEvent e){
                             m_vista.setVisible(true);
@@ -214,6 +256,9 @@ public class EstadisticasControlador {
             }
         }
     }
+    /**
+     * Listener para el botón MOSTRAR ESTADISTICA 2
+     */
     public class Estadistica2Listener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -224,15 +269,15 @@ public class EstadisticasControlador {
 
             try {
 
-                Profesor profesor = (Profesor) m_vista.getProfesorComboBox().getSelectedItem();
+                ObjCombo profesor = (ObjCombo) m_vista.profesorComboBox.getSelectedItem();
 
                 Integer numAprobados = null;
                 try {
-                    numAprobados = calificacion.numAprobados(cnn, profesor.id, (Integer) m_vista.getAnioMatriculadosComboBox().getSelectedItem());
+                    numAprobados = calificacion.numAprobados(cnn, profesor.id, (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem());
                 } catch (SQLException ex) {
                     Logger.getLogger(EstadisticasControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Integer numMatriculados = calificacion.numMatriculados(cnn, profesor.id, (Integer) m_vista.getAnioMatriculadosComboBox().getSelectedItem());
+                Integer numMatriculados = calificacion.numMatriculados(cnn, profesor.id, (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem());
 
                 if (numMatriculados == 0) {
                     m_vista.printMensajeSinDatos();
@@ -248,8 +293,8 @@ public class EstadisticasControlador {
                     //Creamos un Chart
                     JFreeChart chart = ChartFactory.createPieChart(
                             "(%) Aprobados y Suspensos de "
-                            + m_vista.getProfesorComboBox().getSelectedItem() + " ("
-                            + m_vista.getAnioMatriculadosComboBox().getSelectedItem() + ")", //Títrulo del gráfico
+                            + m_vista.profesorComboBox.getSelectedItem() + " ("
+                            + m_vista.anioMatriculadosComboBox.getSelectedItem() + ")", //Títrulo del gráfico
                             data,
                             true,//Leyenda
                             true,//ToolTips
@@ -260,7 +305,7 @@ public class EstadisticasControlador {
                     frame.pack();
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
-
+                    //Listener para cerrar estadistica
                     frame.addWindowListener(new java.awt.event.WindowAdapter(){
                         public void windowClosing(WindowEvent e){
                             m_vista.setVisible(true);
@@ -273,10 +318,13 @@ public class EstadisticasControlador {
             }
         }
     }
+    /**
+     * Listener para el botón MOSTRAR ESTADISTICA 3
+     */
     public class Estadistica3Listener implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Pulsado boton3");
+            System.out.println("Pulsado botonf3");
             m_vista.setVisible(false);
             Connection cnn = (Connection) Conexion.conectar();
             MatriculacionesDAO matriculacion = new MatriculacionesDAO();
@@ -310,7 +358,7 @@ public class EstadisticasControlador {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-
+            //Listener para cerrar estadistica
             frame.addWindowListener(new java.awt.event.WindowAdapter(){
                         public void windowClosing(WindowEvent e){
                             m_vista.setVisible(true);
