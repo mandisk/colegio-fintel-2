@@ -1,5 +1,5 @@
 /**
- * MatriculacionesDTO.java
+ * MatriculacionesDAO.java
  *
  */
 
