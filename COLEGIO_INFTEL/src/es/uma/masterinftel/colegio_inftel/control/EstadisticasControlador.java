@@ -4,7 +4,6 @@
  */
 package es.uma.masterinftel.colegio_inftel.control;
 
-import colegio_inftel.*;
 import com.mysql.jdbc.Connection;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.AsignaturasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
