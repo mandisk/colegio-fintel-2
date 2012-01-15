@@ -4,19 +4,14 @@ import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
 import java.awt.event.ActionListener;
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * AnotarIncidenciasVista.java
- *
- * Created on 9/01/2012, 11:29:48 AM
  */
 
 /**
+ *Vista para la Modificación de incidencias de Alumnos y visualización de las mismas
  *
- * @author BlackCrystal™
+ * @author Luis Jarén
+ * @version v1.0 Diciembre-2011
  */
 public class AnotarIncidenciasVista extends javax.swing.JDialog {
 
@@ -24,7 +19,12 @@ public class AnotarIncidenciasVista extends javax.swing.JDialog {
     private Integer anio_mat;
     private Integer id_alumno;
 
-    /** Creates new form AnotarIncidenciasVista */
+    /**
+     * Constructor de clase
+     * @param modelo modelo de la clase DAO
+     * @param parent ventana padre de Anotar Vista
+     * @param modal si true se visualiza de forma Modal
+     */
     public AnotarIncidenciasVista(MatriculacionesDAO modelo,java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.modelo= modelo;
@@ -261,22 +261,6 @@ public class AnotarIncidenciasVista extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                AnotarIncidenciasVista dialog = new AnotarIncidenciasVista(new MatriculacionesDAO(),new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel apellido1NotasLabel4;
@@ -304,64 +288,154 @@ public class AnotarIncidenciasVista extends javax.swing.JDialog {
     private javax.swing.JTextField sancionesText;
     // End of variables declaration//GEN-END:variables
 
-    //metodos de acceso a los elementos de la  vista
+    /**
+     * Escribe en el label correspondiente el nombre del Alumno
+     * @param alumno
+     */
+
      public void setNombreAlumno(String alumno){
         lbAlumnoValue.setText(alumno);
     }
+
+     /**
+     * Escribe en el label correspondiente el nombre de la Asignatura
+     * @param asignatura
+     */
     public void setAsignatura(String asignatura){
         lbAsignaturaValue.setText(asignatura);
     }
+
+    /**
+     * Escribe en el label correspondiente el Curso correspondiente
+     * @param curso
+     */
     public void setCurso(String curso){
         lbCursoValue.setText(curso);
     }
+
+    /**
+     * Escribe en el label correspondiente el Grupo
+     * @param grupo
+     */
     public void setGrupo(String grupo){
         lbGrupoValue.setText(grupo);
     }
-    public int getFaltas(){
-        return new Integer(faltasText.getText());
-    }
-    public int getRetrasos(){
-        return new Integer(retrasosText.getText());
-    }
-    public int getSanciones(){
-        return new Integer(sancionesText.getText());
-    }
-    public String getComentarios(){
-        return new String(comentariosTextArea.getText());
-    }
-    public void setFaltas(String faltas){
-        faltasText.setText(faltas);
-    }
-    public void setRetrasos(String retrasos){
-        retrasosText.setText(retrasos);
-    }
-    public void setSanciones(String sanciones){
-        sancionesText.setText(sanciones);
-    }
-    public void setComentarios(String comentario){
-        comentariosTextArea.setText(comentario);
-    }
+    
+    /**
+     * Acción para guardar Incidencias (asociado al botón GUARDAR)
+     * @param a Acción
+     */
     public void addConfirmarListener(ActionListener a){
         btnGuardar.addActionListener(a);
 
     }
+    /**
+     * Acción para Ocultar el formulario
+     * @param a Acción
+     */
     public void addCancelarListener(ActionListener a){
         btnCerrar.addActionListener(a);
     }
+
+    /**
+     * Métodos Getters y Setters
+     */
+
+
+    /**
+     * Método Get
+     * @return Año de Matriculación
+     */
         public Integer getAnio_mat() {
         return anio_mat;
     }
 
+     /**
+     * Método Get
+     * @return Identificador del Alumno
+     */
     public Integer getId_alumno() {
         return id_alumno;
     }
 
+    /**
+     * Método Set
+     * @param anio_mat Año de Matriculación
+     */
     public void setAnio_mat(Integer anio_mat) {
         this.anio_mat = anio_mat;
     }
 
+    /**
+     * Método Set
+     * @param id_alumno Identificador del Alumno
+     */
     public void setId_alumno(Integer id_alumno) {
         this.id_alumno = id_alumno;
+    }
+    
+    /**
+     * Devuelve las faltas de un alumno
+     * @return faltas
+     */
+    public int getFaltas(){
+        return new Integer(faltasText.getText());
+    }
+
+    /**
+     * Devuelve los retrasos de un alumno
+     * @return retrasos
+     */
+    public int getRetrasos(){
+        return new Integer(retrasosText.getText());
+    }
+
+    /**
+     * Devuelve las sanciones asociadas al alumno
+     * @return sanciones
+     */
+    public int getSanciones(){
+        return new Integer(sancionesText.getText());
+    }
+
+    /**
+     * Devuelve los comentarios sobre el alumno
+     * @return comentarios
+     */
+    public String getComentarios(){
+        return new String(comentariosTextArea.getText());
+    }
+
+     /**
+     * Escribe las faltas en el textfield de la vista
+     * @param faltas valor de las faltas del alumno
+     */
+    public void setFaltas(String faltas){
+        faltasText.setText(faltas);
+    }
+
+     /**
+     * Escribe los retrasos en el textfield de la vista
+     * @param retrasos valor de los retrasos del alumno
+     */
+    public void setRetrasos(String retrasos){
+        retrasosText.setText(retrasos);
+    }
+
+     /**
+     * Escribe las sanciones en el textfield de la vista
+     * @param sanciones valor de las sanciones del alumno
+     */
+    public void setSanciones(String sanciones){
+        sancionesText.setText(sanciones);
+    }
+
+     /**
+     * Escribe los comentarios en el textarea de la vista
+     * @param comentarios valor de los comentarios sobre el alumno
+     */
+    public void setComentarios(String comentario){
+        comentariosTextArea.setText(comentario);
     }
 
 }
