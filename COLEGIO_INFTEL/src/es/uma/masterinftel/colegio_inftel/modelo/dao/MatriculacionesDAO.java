@@ -25,13 +25,13 @@ public class MatriculacionesDAO extends GenericDAO {
     /**
      * Sentencia SQL para obtener el año actual del curso escolar
      */
-    public static final String SQL_SELECT_ANIO_MATRICULACION =
+    private static final String SQL_SELECT_ANIO_MATRICULACION =
            "SELECT MAX(anio_mat) FROM MATRICULACIONES;";
 
     /**
      * Sentencia SQL para actualizar las incidecias de un alumno
      */
-    public static final String SQL_UPDATE_INCIDENCIAS =
+    private static final String SQL_UPDATE_INCIDENCIAS =
            "UPDATE MATRICULACIONES SET " +
            "faltas_acumuladas = ?, retardos = ?, saciones = ?, observaciones = ? " +
            "WHERE " +
@@ -41,13 +41,13 @@ public class MatriculacionesDAO extends GenericDAO {
     /**
      * Sentencia SQL para obtener los distintos años escolares
      */
-    public static final String SQL_ANIOS_MATRICULACIONES =
+    private static final String SQL_ANIOS_MATRICULACIONES =
             "SELECT DISTINCT(anio_mat) FROM MATRICULACIONES;";
 
     /**
      * Sentencia SQL para obtener las matriculaciones de una asignatura
      */
-    public static final String SQL_MATRICULADOS_ASIGNATURAS =
+    private static final String SQL_MATRICULADOS_ASIGNATURAS =
             "SELECT B.CODASIGNATURA AS 'ASIGNATURA', COUNT(A.ID_ALUMNO_FK) AS 'ALUMNOS' "+
             "FROM MATRICULACIONES A, ASIGNATURAS B "+
             "WHERE A.ID_CURSOS_FK = B.IMPARTE_CURSOS_ID_FK "+

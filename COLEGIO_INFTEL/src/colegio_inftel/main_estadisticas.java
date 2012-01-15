@@ -25,10 +25,7 @@ import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
-/**
- *
- * @author agumpg
- */
+
 public class main_estadisticas extends javax.swing.JFrame {
 
     /**

@@ -35,7 +35,7 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="jPanel3" pref="1070" max="32767" attributes="1"/>
+              <Component id="jPanel3" max="32767" attributes="1"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -229,17 +229,20 @@
       <SubComponents>
         <Component class="javax.swing.JComboBox" name="comboCurso">
           <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
             <AuxValue name="JavaCodeGenerator_allCodePost" type="java.lang.String" value="comboCurso.setModel(comboModelo);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="comboGrupo">
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="comboGrupo.setModel(comboModeloGrupo);"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="comboAsignatura">
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="comboAsignatura.setModel(comboModeloAsignatura);"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="curso">

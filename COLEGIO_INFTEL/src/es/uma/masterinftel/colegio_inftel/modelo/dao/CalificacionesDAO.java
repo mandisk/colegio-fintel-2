@@ -23,7 +23,7 @@ public class CalificacionesDAO extends GenericDAO {
     /**
      * Sentencia SQL para actualizar las calificaciones del alumno
      */
-    public static final String SQL_UPDATE_CALIFICACIONES =
+    private static final String SQL_UPDATE_CALIFICACIONES =
            "UPDATE CALIFICACIONES SET " +
            "nota_p1 = ?, nota_p2 = ?, nota_p3 = ?, nota_final = ? " +
            "WHERE " +
@@ -34,7 +34,7 @@ public class CalificacionesDAO extends GenericDAO {
     /**
      * Sentencia SQL que devuelve el número de aprobados
      */
-    public static final String SQL_APROBADOS =
+    private static final String SQL_APROBADOS =
             "SELECT COUNT(DISTINCT A.ID_ALUMNO_FK) AS APROBADOS "+
             "FROM  MATRICULACIONES A, CALIFICACIONES D "+
             "WHERE A.ID_ALUMNO_FK = D.ID_ALUMNO_FK "+
@@ -47,7 +47,7 @@ public class CalificacionesDAO extends GenericDAO {
     /**
      * Sentencia SQL que devuelve el número de matriculados en una asignatura
      */
-    public static final String SQL_MATRICULADOS =
+    private static final String SQL_MATRICULADOS =
             "SELECT COUNT(DISTINCT A.ID_ALUMNO_FK) AS APROBADOS "+
             "FROM  MATRICULACIONES A, CALIFICACIONES D "+
             "WHERE A.ID_ALUMNO_FK = D.ID_ALUMNO_FK "+
@@ -60,7 +60,7 @@ public class CalificacionesDAO extends GenericDAO {
     /**
      * Sentencia SQL que devuelve el número de aprobados de un profesor
      */
-    public static final String SQL_APROBADOS_PROFESOR =
+    private static final String SQL_APROBADOS_PROFESOR =
             "SELECT COUNT(B.ID_ALUMNO_FK) AS APROBADOS " +
             "FROM ASIGNATURAS A, CALIFICACIONES B "+
             "WHERE A.CODASIGNATURA = B.CODASIGNATURA_FK "+
@@ -72,7 +72,7 @@ public class CalificacionesDAO extends GenericDAO {
     /**
      * Sentencia SQL el numero de matriculados en las asignaturas de un profesor
      */
-    public static final String SQL_MATRICULADOS_ASIG_PROFESOR =
+    private static final String SQL_MATRICULADOS_ASIG_PROFESOR =
             "SELECT COUNT(B.ID_ALUMNO_FK) AS APROBADOS " +
             "FROM ASIGNATURAS A, CALIFICACIONES B "+
             "WHERE A.CODASIGNATURA = B.CODASIGNATURA_FK "+

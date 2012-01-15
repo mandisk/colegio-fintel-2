@@ -13,25 +13,10 @@ package es.uma.masterinftel.colegio_inftel.vistas;
 /************************************************************************/
 import es.uma.masterinftel.colegio_inftel.modelo.dao.EscuelaModeloDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.EscuelaModeloDTO;
-import es.uma.masterinftel.colegio_inftel.utilidades.Constantes;
-import es.uma.masterinftel.colegio_inftel.modelo.dao.AsignaturasDAO;
-import es.uma.masterinftel.colegio_inftel.modelo.dto.AsignaturasDTO;
-import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import es.uma.masterinftel.colegio_inftel.utilidades.*;
 import java.awt.event.ActionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.RowFilter;
-import javax.swing.table.TableRowSorter;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.*;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import com.mysql.jdbc.Connection;
-import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
-import java.util.ArrayList;
-import java.sql.SQLException;
-import java.util.Iterator;
 /*************************************************************************/
 
 /**
@@ -47,6 +32,11 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
      DefaultComboBoxModel comboModeloAsignatura = new DefaultComboBoxModel();
      //Mirar el customize code de los combos
     public boolean bJefeDeEstudios;
+    private Integer idProfesor;
+
+    public Integer getIdProfesor() {
+        return idProfesor;
+    }
     //public int rol=0;
 /**************************************************************/
     
@@ -285,7 +275,7 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1070, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,9 +299,9 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btCalificaciones;
     private javax.swing.JButton btEstadisticas;
     private javax.swing.JButton btIncidencias;
-    private javax.swing.JComboBox comboAsignatura;
-    private javax.swing.JComboBox comboCurso;
-    private javax.swing.JComboBox comboGrupo;
+    public javax.swing.JComboBox comboAsignatura;
+    public javax.swing.JComboBox comboCurso;
+    public javax.swing.JComboBox comboGrupo;
     private javax.swing.JLabel curso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -381,77 +371,15 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
     public void setRolJefeDeEstudios(Integer rolUsuario,Integer idProfesor) {
       
         bJefeDeEstudios = (rolUsuario == Constantes.ROL_JEFE_DE_ESTUDIOS);
-        iniciaComboCurso(bJefeDeEstudios,idProfesor);
+        this.idProfesor = idProfesor;
+        //iniciaComboCurso(bJefeDeEstudios,idProfesor);
     }
 /*****************************************************/
 
 /**************************************************************************/
-    public void iniciaComboCurso(boolean jefe,Integer idProfesor) {
-     ArrayList res,res2;
-     String cursos[] = {"1º ESO","2º ESO","3º ESO","4º ESO","1º BACHILLERATO","2º BACHILLERATO"};
-     String grupos[] = {"A","LETRAS","HUMANIDADES"};
-     String asignaturas[] = {"MATEMATICAS","LENGUA","HISTORIA","INGLES","INFORMATICA"};
-     Connection cnn = (Connection) Conexion.conectar();
-     AsignaturasDAO dao = new AsignaturasDAO();
-     try{
-     if(jefe){
-//Inicializar comboCurso
-         comboModelo.addElement(new Curso("1º ESO", "1"));
-comboModelo.addElement(new Curso("2º ESO", "2"));
-comboModelo.addElement(new Curso("3º ESO", "3"));
-comboModelo.addElement(new Curso("4º ESO", "4"));
-comboModelo.addElement(new Curso("1º BACHILLERATO", "5"));
-comboModelo.addElement(new Curso("2º BACHILLERATO", "6"));
-//Inicializar comboGrupo
-comboModeloGrupo.addElement(new Grupo("A", "1"));
-comboModeloGrupo.addElement(new Grupo("LETRAS", "2"));
-comboModeloGrupo.addElement(new Grupo("HUMANIDADES", "3"));
-//Inicializar comboAsignatura
-comboModeloAsignatura.addElement(new Asignatura("MATEMATICAS", 1));
-comboModeloAsignatura.addElement(new Asignatura("LENGUA", 2));
-comboModeloAsignatura.addElement(new Asignatura("HISTORIA", 3));
-comboModeloAsignatura.addElement(new Asignatura("INGLES", 4));
-comboModeloAsignatura.addElement(new Asignatura("INFORMATICA", 5));
+ 
 
 
-        // res2 = dao.obtenerAsignaturas(cnn);
-       //  Iterator j = res2.listIterator();
-       //   while(j.hasNext()){
-       //     AsignaturasDTO b = (AsignaturasDTO) j.next();
-       //  comboModelo.addElement(new Curso(cursos[b.getImparte_cursos_id_fk()-1], (b.getImparte_cursos_id_fk()).toString()));
-         // if((b.getImparte_cursos_id_fk()-1)<4){
-        //  comboModeloGrupo.addElement(new Grupo(grupos[0], (b.getImparte_cursos_id_fk()).toString()));
-        //  }
-       //   else{
-       //   comboModeloGrupo.addElement(new Curso(grupos[b.getImparte_cursos_id_fk()-4], (b.getImparte_cursos_id_fk()).toString()));
-       //   }
-       //   }
-}
-else{
-        comboModeloAsignatura.addElement(new Asignatura(asignaturas[idProfesor-1],idProfesor));
-         res = dao.obtenerAsignaturasByProfesor(cnn, idProfesor);
-         
-        Iterator i = res.listIterator();
-        while(i.hasNext()){
-            AsignaturasDTO a = (AsignaturasDTO) i.next();
-
-           // System.out.println(a.getCodasignatura()+","+a.getDesc()+","+a.getProfesor_id_fk()+","+a.getImparte_cursos_id_fk());
-comboModelo.addElement(new Curso(cursos[a.getImparte_cursos_id_fk()-1], (a.getImparte_cursos_id_fk()).toString()));
-        
-        if(a.getImparte_cursos_id_fk()<4){
-        comboModeloGrupo.addElement(new Grupo(grupos[a.getImparte_cursos_id_fk()-1], (a.getImparte_cursos_id_fk()).toString()));
-        
-        
-        
-        }
-        }
-     }
- } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-}
     public void setNotas(double dato,int columna){
     int fila = getFila();
     //Notas n;

@@ -10,29 +10,11 @@
  */
 package es.uma.masterinftel.colegio_inftel.vistas;
 import es.uma.masterinftel.colegio_inftel.control.EstadisticasControlador;
-import com.mysql.jdbc.Connection;
-import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
-import es.uma.masterinftel.colegio_inftel.modelo.dao.ProfesoresDAO;
-import es.uma.masterinftel.colegio_inftel.modelo.dto.ProfesoresDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Asignatura;
-import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import es.uma.masterinftel.colegio_inftel.utilidades.Curso;
 import es.uma.masterinftel.colegio_inftel.utilidades.Profesor;
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.chart.ChartPanel;
-import javax.swing.JPanel;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 

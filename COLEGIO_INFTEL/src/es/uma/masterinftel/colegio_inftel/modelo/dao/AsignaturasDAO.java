@@ -7,6 +7,7 @@ package es.uma.masterinftel.colegio_inftel.modelo.dao;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.AsignaturasDTO;
+import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,19 +23,19 @@ public class AsignaturasDAO extends GenericDAO {
     /**
      * Sentencia SQL para obtener el listado de asignaturas
      */
-    public static final String SQL_SELECT_ASIGNATURAS =
+    private static final String SQL_SELECT_ASIGNATURAS =
            "SELECT * FROM ASIGNATURAS;";
 
     /**
      * Sentencia SQL para obtener las asignaturas de un profesor
      */
-    public static final String SQL_SELECT_ASIGNATURAS_PROFESOR =
+    private static final String SQL_SELECT_ASIGNATURAS_PROFESOR =
            "SELECT * FROM ASIGNATURAS WHERE profesor_id_fk=?;";
 
     /**
      * Sentencia SQL para obtener la descripción de una asignatura por código
      */
-    public static final String SQL_SELECT_ASIGNATURAS_POR_CODIGO =
+    private static final String SQL_SELECT_ASIGNATURAS_POR_CODIGO =
            "SELECT desc FROM ASIGNATURAS WHERE codasignatura=?;";
 
 
