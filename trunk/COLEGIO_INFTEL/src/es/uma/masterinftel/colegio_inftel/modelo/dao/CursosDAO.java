@@ -23,13 +23,13 @@ public class CursosDAO extends GenericDAO {
     /**
      * Sentencia SQL para obtener todos los cursos impartidos en el colegio
      */
-    public static final String SQL_SELECT_CURSOS =
+    private static final String SQL_SELECT_CURSOS =
            "SELECT * FROM CURSOS;";
 
     /**
      * Sentencia SQL para obtener los cursos en los que imparte clase un profesor.
      */
-    public static final String SQL_SELECT_CURSOS_PROFESOR =
+    private static final String SQL_SELECT_CURSOS_PROFESOR =
             "SELECT A.ID, A.DESC FROM CURSOS A, ASIGNATURAS B " +
             "WHERE A.ID = B.IMPARTE_CURSOS_ID_FK AND B.PROFESOR_ID_FK = ?;";
 

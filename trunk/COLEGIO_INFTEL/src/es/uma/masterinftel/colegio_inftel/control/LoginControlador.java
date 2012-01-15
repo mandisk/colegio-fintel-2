@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
+import java.sql.SQLException;
 
 /**
  *
@@ -56,13 +57,14 @@ public class LoginControlador {
         return h.toString();
     }
      
-    private void navegacion(Integer rol,Integer idProfesor) {
+    private void navegacion(Integer rol,Integer idProfesor) throws SQLException {
         EscuelaModeloDAO next_modelo = new EscuelaModeloDAO();
         EscuelaVistaPrincipal next_vista = new EscuelaVistaPrincipal(next_modelo);
+        next_vista.setRolJefeDeEstudios(rol,idProfesor);
         EscuelaControlador next_controlador = new EscuelaControlador(next_modelo,next_vista);
         
         m_vista.setVisible(false);
-        next_vista.setRolJefeDeEstudios(rol,idProfesor);
+        
         next_vista.setVisible(true);
     }
         
@@ -108,6 +110,7 @@ public class LoginControlador {
                                 bTest = md5(pass).equals(profesor.getPassword());
                                 if (bTest) {
                                     // El usuario es válido
+                                    
                                     RolProfesorDTO rolProfesor = rol.findRolByProfesorId(profesor.getId());
                                     navegacion(rolProfesor.getId_rol_fk(),profesor.getId());
                                 }
