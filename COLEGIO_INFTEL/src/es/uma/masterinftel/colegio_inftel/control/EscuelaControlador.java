@@ -1,12 +1,10 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * EscuelaControlador.java
+ * 
  */
-//package colegio_inftel;
 
 package es.uma.masterinftel.colegio_inftel.control;
 
-//import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import com.mysql.jdbc.Connection;
@@ -14,7 +12,6 @@ import es.uma.masterinftel.colegio_inftel.modelo.dao.AsignaturasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CursosDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.EscuelaModeloDAO;
-//import es.uma.masterinftel.colegio_inftel.modelo.dao.IncidenciasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.GruposDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.MatriculacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.AsignaturasDTO;
@@ -31,10 +28,11 @@ import es.uma.masterinftel.colegio_inftel.modelo.dto.GruposDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import java.util.ArrayList;
 import java.util.Iterator;
-//import es.uma.masterinftel.colegio_inftel.modelo.dao.NotasDAO;
 /**
- *
- * @author Proyectos
+ *Controlador para la Vista Principal
+ * 
+ * @author Manuel Valls
+ * @version v1.0 Diciembre-2011
  */
 public class EscuelaControlador {
   
@@ -45,25 +43,53 @@ public class EscuelaControlador {
     //Variables inicializadas
     int curso=1;
     int grupo=1;
-    //int asignatura=1;
 
     //Formulario Anotar Calificaciones
+    
+    /**
+     * modelo DAO de Calificaciones
+     */
     protected CalificacionesDAO        m_calificaciones;
+    /**
+     * Vista de Anotar Notas
+     */
     protected AnotarNotasVista         v_calificaciones;
+    /**
+     * Controlador para Anotar Notas
+     */
     protected AnotarNotasControlador   c_calificaciones;
     
     //Formulario Anotar Incidencias
+    /**
+     *  modelo DAO de Incidencias
+     */
     protected MatriculacionesDAO        m_incidencias;
+    /**
+     *  Vista de Anotar Incidencias
+     */
     protected AnotarIncidenciasVista         v_incidencias;
+    /**
+     *  Controlador para Anotar Incidencias
+     */
     protected AnotarIncidenciasControlador   c_incidencias;
     
     //Formulario Ver Estadisticas
-   // protected MatriculacionesDAO        m_incidencias;
+    /**
+     * Vista de las Estadísticas
+     */
     protected EstadisticasVista         v_estadisticas;
+    /**
+     * Controlador para las Estadísticas
+     */
     protected EstadisticasControlador   c_estadisticas;
 
     
-    /** Constructor */
+    /**
+     * Constructor de la clase
+     * @param modelo clase DAO de acceso a datos
+     * @param vista clase formulario para visualización
+     * @throws java.sql.SQLException
+     */
     public EscuelaControlador(EscuelaModeloDAO modelo, EscuelaVistaPrincipal vista) throws SQLException{
         m_modelo = modelo;
         m_vista = vista;
@@ -141,19 +167,15 @@ public class EscuelaControlador {
 
     /**
      * Carga de combos.
-     * Si el usuario es jefe de estudio carga todas las asignaturas y cursos,
+     * Si el usuario es jefe de estudio carga todas los cursos,
      * en caso contrario carga únicamente las del profesor correspondiente.
      *
      * @throws java.sql.SQLException
      */
     private void initComponent_Vista() throws SQLException{
 
-            ArrayList listaAsig, listaCur, listaGru;
-
-
+            ArrayList listaCur;
             Connection cnn = (Connection) Conexion.conectar();
-          //  AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
-         //   AsignaturasDTO asignaturasDTO = new AsignaturasDTO();
             CursosDAO cursosDAO = new CursosDAO();
             CursosDTO cursosDTO = new CursosDTO();
 
@@ -161,24 +183,12 @@ public class EscuelaControlador {
 
             if (m_vista.bJefeDeEstudios) {
                 //es jefe de estudios
-             //   listaAsig = asignaturasDAO.obtenerAsignaturas(cnn);
                 listaCur = cursosDAO.obtenerCursos(cnn);
 
          } else {
                 //no es jefe de estudios
-            //    listaAsig = asignaturasDAO.obtenerAsignaturasByProfesor(cnn, m_vista.getIdProfesor());
                 listaCur = cursosDAO.obtenerCursosByProfesor(cnn, m_vista.getIdProfesor());
             }
-
-            //Carga del combo Asignaturas
-           // Iterator itAsig = listaAsig.iterator();
-          //  while( itAsig.hasNext()){
-          //      asignaturasDTO = (AsignaturasDTO) itAsig.next();
-          //      ObjCombo obj = new ObjCombo(asignaturasDTO.getCodasignatura(),
-          //                                  asignaturasDTO.getDesc());
-          //      m_vista.comboAsignatura.addItem(obj);
-          //  }
-
 
             //Carga del combo Cursos
             Iterator itCur = listaCur.iterator();
@@ -188,27 +198,15 @@ public class EscuelaControlador {
                                             cursosDTO.getDesc());
                 m_vista.comboCurso.addItem(obj);
             }
-
-
-            //Carga del combo Grupos correspondiente al primer curso
-           // GruposDAO gruposDAO = new GruposDAO();
-          //  GruposDTO gruposDTO = new GruposDTO();
-
-            //listaGru = gruposDAO.obtenerGruposByCurso(cnn,((ObjCombo) m_vista.comboCurso.getItemAt(0)).getId());
-
-
-          //  Iterator itGru = listaGru.iterator();
-         //   while( itGru.hasNext()){
-         //       gruposDTO = (GruposDTO) itGru.next();
-         //       ObjCombo obj = new ObjCombo(gruposDTO.getId(),
-         //                                   gruposDTO.getDesc());
-         //       m_vista.comboGrupo.addItem(obj);
-         //   }
-
     }
 
 
-
+     /**
+     * Carga de combos.
+     * Si el usuario es jefe de estudio carga todas las asignaturas y cursos,
+     * en caso contrario carga únicamente las del profesor correspondiente.
+     *
+     */
 
     class ComboListener implements ActionListener  {
     public void actionPerformed(ActionEvent e) {
@@ -293,17 +291,6 @@ public class EscuelaControlador {
                
             }
 
-
-            //Carga del combo Cursos
-           // Iterator itCur = listaCur.iterator();
-           // while( itCur.hasNext()){
-           //     cursosDTO = (CursosDTO) itCur.next();
-           //     ObjCombo obj = new ObjCombo(cursosDTO.getId(),
-                               //             cursosDTO.getDesc());
-           //     m_vista.comboCurso.addItem(obj);
-           // }
-
-
             //Carga del combo Grupos correspondiente al primer curso
             GruposDAO gruposDAO = new GruposDAO();
             GruposDTO gruposDTO = new GruposDTO();
@@ -326,6 +313,13 @@ public class EscuelaControlador {
     }
     }
     
+     /**
+     * Búsqueda de alumnos
+     * Con esta clase se muestran en el JTable los alumnos de un curso,grupo y
+     * asignatura seleccionados. Para ello hay que pulsar sobre el botón buscar 
+     * del formulario.
+     *
+     */
     class SearchListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             EscuelaModeloDTO dto = new EscuelaModeloDTO();
@@ -353,7 +347,13 @@ public class EscuelaControlador {
             m_vista.jTable1.getColumnModel().getColumn(11).setPreferredWidth(0);
         }
     }
-     class FilterListener implements DocumentListener {
+    /**
+     * Búsqueda de alumnos
+     * Con esta clase se filtra los alumnos por nombre, apellido1 o apellido2.
+     * Para realizar el filtro se lee el texto que hay en el campo de texto.
+     *
+     */ 
+    class FilterListener implements DocumentListener {
          public void changedUpdate(DocumentEvent e) {
                         newFilter();
                     }
@@ -438,6 +438,10 @@ public class EscuelaControlador {
         }//actionPerformed
 
     }
+    /**
+     * Clase listener para ejecutar la acción del botón Editar Incidencias
+     * 
+     */
   class IncidenciasListener implements ActionListener{
       @Override
         public void actionPerformed(ActionEvent e) {
@@ -486,7 +490,10 @@ public class EscuelaControlador {
             }
             }
   }
-
+     /**
+     * Clase listener para ejecutar la acción del botón Ver Estadísticas
+     * 
+     */
  class EstadisticasListener implements ActionListener{
       @Override
         public void actionPerformed(ActionEvent e) {

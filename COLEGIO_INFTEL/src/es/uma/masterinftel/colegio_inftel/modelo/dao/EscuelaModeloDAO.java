@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * EscuelaModelo.java
+ * 
  */
 package es.uma.masterinftel.colegio_inftel.modelo.dao;
 
@@ -10,64 +10,50 @@ import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.table.TableRowSorter;
-import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
-
-//import com.mysql.jdbc.Connection;
-
-
 
 /**
- *
+ *Clase DAO (Data Access Object) para el acceso al modelo de la Vista Principal
+ * 
  * @author Manuel Valls
+ * @version v1.0
  */
 public class EscuelaModeloDAO extends GenericDAO {
-       /** La conexion con la base de datos */
+    /** 
+     * La conexion con la base de datos 
+     */
     private Connection conexion = null;
-    //Cadena SELECT a consultar
+    /**
+     * Cadena SELECT a consultar
+     */
     public static final String SQL_SELECT_ALUMNOS ="SELECT t1.nombre,t1.apellido1,t1.apellido2,t2.faltas_acumuladas,"+
             "t2.retardos,t2.saciones,t3.nota_p1,t3.nota_p2,t3.nota_p3,t3.nota_final,t1.id,t1.observaciones\n"+
-"FROM ALUMNOS AS t1,MATRICULACIONES AS t2,CALIFICACIONES AS t3\n"+
-"WHERE t1.id=t2.id_alumno_fk\n AND t3.codasignatura_fk= ?\n AND t2.id_alumno_fk=t3.id_alumno_fk\n"+
-"AND t2.id_cursos_fk= ?\n AND t2.id_grupo_fk= ?\nAND t3.anio_mat_fk=t2.anio_mat\n"+
-"AND t2.anio_mat=(SELECT MAX(anio_mat)\n"+ 
-"FROM MATRICULACIONES) ";
+    "FROM ALUMNOS AS t1,MATRICULACIONES AS t2,CALIFICACIONES AS t3\n"+
+    "WHERE t1.id=t2.id_alumno_fk\n AND t3.codasignatura_fk= ?\n AND t2.id_alumno_fk=t3.id_alumno_fk\n"+
+    "AND t2.id_cursos_fk= ?\n AND t2.id_grupo_fk= ?\nAND t3.anio_mat_fk=t2.anio_mat\n"+
+    "AND t2.anio_mat=(SELECT MAX(anio_mat)\n"+ 
+    "FROM MATRICULACIONES) ";
     
-    //Para meter los datos en el JTable, usaremos la clase DefaultTableModel. 
-    //Para ello basta con instanciar el JTable como se muestra en el codigo
-public DefaultTableModel modelo = new DefaultTableModel();
-public JTable tabla = new JTable(modelo);
-public TableRowSorter sorter = new TableRowSorter(modelo);
+    
+   /**
+     * Para meter los datos en el JTable, usaremos la clase DefaultTableModel.
+     */ 
+    
+    public DefaultTableModel modelo = new DefaultTableModel();
+    /**
+    * Para ello basta con instanciar el JTable como se muestra en el codigo
+    */
+    public JTable tabla = new JTable(modelo);
+    /**
+     * Utilizamos un TableRowSorte para poder realizar el filtrado
+     */
+    public TableRowSorter sorter = new TableRowSorter(modelo);
  
-
-
- //   public Integer obtenerIdAlumno(Connection conexion) throws SQLException {
-   //     PreparedStatement ps = null;
-    //    ResultSet rs = null;
-    //    Integer idAlumno = 0;
-
-     //   try {
-     //      ps = (PreparedStatement) conexion.prepareStatement(SQL_SELECT_ALUMNOS);
-
-     //       rs = ps.executeQuery();
-
-    //        if( rs.next() ){
-    //            idAlumno = rs.getInt(11);
-    //        }
-
-  //      } finally {
-       //     cerrar(ps);
-    //        cerrar(rs);
-   //     }
-
-   //     return idAlumno;
- //   }
-    //}
     /**
      * Realiza la consulta de personas en la tabla y devuelve el ResultSet
      * correspondiente.
+     * @param dto Modelo DTO del formulario principal
      * @return El resultado de la consulta
      */
     
@@ -104,7 +90,10 @@ public TableRowSorter sorter = new TableRowSorter(modelo);
             e.printStackTrace();
         }
     }
- 
+    /**
+     * 
+     * @param dto Modelo DTO del formulario principal
+     */
     public void rellenaTabla(EscuelaModeloDTO dto){
         //Primero se obtiene la conexión a la base de datos con un código como este:
         //estableceConexion();
@@ -155,7 +144,6 @@ public TableRowSorter sorter = new TableRowSorter(modelo);
   
     /**
      * Borra todas las filas del modelo.
-     * @param modelo El modelo para la tabla.
      */
     public void vaciaFilasModelo()
     {
