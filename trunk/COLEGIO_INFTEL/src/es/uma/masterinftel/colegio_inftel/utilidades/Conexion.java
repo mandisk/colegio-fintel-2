@@ -1,37 +1,44 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uma.masterinftel.colegio_inftel.utilidades;
 
-import es.uma.masterinftel.colegio_inftel.utilidades.ConfigBD;
 import java.sql.*;
 
-
 /**
- *
- * @author Jesús Barriga
+ * Conexion es la clase que implementa el patrón Singleton para la conexión
+ * a la BD de forma que solo haya una conexión activa en la aplicación.
+ * 
+ * @author Jesus Barriga
+ * @version 1.0, Diciembre-2011
+ * 
  */
 public class Conexion {
 
+    /** Objeto conexión */
     private static Connection conn = null;
+
+    /** 
+     * Constructor privado que evita que se creen objetos Conexion desde fuera 
+     */
+    private Conexion() {
+    }
+
+    ; 
     
-    private Conexion() { };   //Evita que se creen objetos desde fuera
-    
+    /**
+     * Devuelve el objeto Conexion existente o crea uno nuevo si no existe.
+     *
+     * @return Objeto conexión
+     */
     public static Connection conectar() {
 
         if (conn == null) {
             try {
 
                 Class.forName("org.gjt.mm.mysql.Driver");
-                //conn = DriverManager.getConnection(url, login, password);
 
                 ConfigBD.Configurar(Constantes.FICHERO_CONFIGURACION_DB);
-                conn = DriverManager.getConnection(ConfigBD.uri,ConfigBD.usuario,ConfigBD.clave);
+                conn = DriverManager.getConnection(ConfigBD.uri, ConfigBD.usuario, ConfigBD.clave);
 
-                //Lo siguiente se debe quitar después:
                 if (conn != null) {
-                    //System.out.println("Conexión a base de datos " + bd.getUri() + " ... Ok");
                     System.out.println("Conexión a base de datos " + ConfigBD.uri + " ... Ok");
                 }
             } catch (SQLException ex) {
@@ -42,12 +49,4 @@ public class Conexion {
         }
         return conn;
     }
-   
-   public static void main(String[] args) {
-      
-      System.out.println("Probando la conexión...\n");
-       
-      Connection miConexion = Conexion.conectar();
-    }
-   
 }
