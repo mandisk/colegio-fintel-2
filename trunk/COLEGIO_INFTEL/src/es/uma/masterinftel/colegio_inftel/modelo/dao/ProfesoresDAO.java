@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uma.masterinftel.colegio_inftel.modelo.dao;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -9,20 +5,39 @@ import es.uma.masterinftel.colegio_inftel.modelo.dto.*;
 import es.uma.masterinftel.colegio_inftel.utilidades.*;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
- *
- * @author jesus
+ * ProfesoresDAO es la clase DAO (Data Access Object) para el acceso al 
+ * modelo (profesores). 
+ * 
+ * @author Jesus Barriga
+ * @version 1.0, Diciembre-2011
+ * 
  */
 public class ProfesoresDAO extends GenericDAO {
 
-    public static final String SQL_SELECT_PROFESORES =
+    /**
+     * Sentencia SQL para recuperar todos los profesores de la BD.
+     */
+    public static final String SQL_PROFESORES =
             "SELECT * FROM PROFESORES;";
+    
+    /**
+     * Sentencia SQL para recuperar el profesor cuyo campo usuario se le pasa
+     * como parámetro.
+     */
+    public static final String SQL_PROFESORES_POR_USUARIO =
+            "SELECT * FROM PROFESORES WHERE " +
+            "usuario = ?";
 
+    /**
+     * Consulta de todos los profesores
+     * 
+     * @return ArrayList de ProfesoresDTO con los profesores recuperados
+     * @throws java.sql.SQLException
+     */
     public ArrayList<ProfesoresDTO> obtenerProfesores() throws SQLException {
 
         Connection conn = Conexion.conectar();
@@ -33,7 +48,7 @@ public class ProfesoresDAO extends GenericDAO {
 
         try {
             if (conn != null) {
-                ps = (PreparedStatement) conn.prepareStatement(SQL_SELECT_PROFESORES);
+                ps = (PreparedStatement) conn.prepareStatement(SQL_PROFESORES);
                 rs = ps.executeQuery();
 
                 //Creamos la lista con todos los objetos cursos
@@ -51,9 +66,7 @@ public class ProfesoresDAO extends GenericDAO {
                     dto.setPassword(rs.getString("password"));
                     dto.setEmail(rs.getString("email"));
                     profesores.add(dto);
-
                 }
-
             }
 
         } finally {
@@ -69,81 +82,43 @@ public class ProfesoresDAO extends GenericDAO {
 
     }
 
-    public ProfesoresDTO findProfesorByUsuario(String usuario) {
+    /**
+     * Consulta de los datos de un profesor a partir de su campo usuario
+     * 
+     * @return objeto ProfesoresDTO con los datos del profesor recuperado
+     * @throws java.sql.SQLException
+     */
+    public ProfesoresDTO findProfesorByUsuario(String usuario) throws SQLException {
 
-        ProfesoresDTO profesor = new ProfesoresDTO();
+        Connection conn = Conexion.conectar();
+
+        PreparedStatement ps = null;
         ResultSet rs = null;
-        Connection conexion = Conexion.conectar();
-
-        String cadenaConsulta = "SELECT * from PROFESORES where usuario='"
-                + usuario + "';";
+        ProfesoresDTO profesor = new ProfesoresDTO();
 
         try {
-            // Se crea un Statement, para realizar la consulta
-            Statement s = conexion.createStatement();
+            if (conn != null) {
+                ps = (PreparedStatement) conn.prepareStatement(SQL_PROFESORES_POR_USUARIO);
+                ps.setString(1, usuario);
+                rs = ps.executeQuery();
 
-            rs = s.executeQuery(cadenaConsulta);
-
-            // Debería recuperar un solo registro. Si recupera más, devolverá
-            // siempre el último.
-            while (rs.next()) {
-                profesor.setId(rs.getInt("Id"));
-                profesor.setDni_doc(rs.getString("dni_doc"));
-                profesor.setNombre(rs.getString("nombre"));
-                profesor.setApellido1(rs.getString("apellido1"));
-                profesor.setApellido2(rs.getString("apellido2"));
-                profesor.setTelfcontacto(rs.getString("telfcontacto"));
-                profesor.setObservaciones(rs.getString("observaciones"));
-                profesor.setUsuario(rs.getString("usuario"));
-                profesor.setPassword(rs.getString("password"));
-                profesor.setEmail(rs.getString("email"));
+                while (rs.next()) {
+                    profesor.setId(rs.getInt("Id"));
+                    profesor.setDni_doc(rs.getString("dni_doc"));
+                    profesor.setNombre(rs.getString("nombre"));
+                    profesor.setApellido1(rs.getString("apellido1"));
+                    profesor.setApellido2(rs.getString("apellido2"));
+                    profesor.setTelfcontacto(rs.getString("telfcontacto"));
+                    profesor.setObservaciones(rs.getString("observaciones"));
+                    profesor.setUsuario(rs.getString("usuario"));
+                    profesor.setPassword(rs.getString("password"));
+                    profesor.setEmail(rs.getString("email"));
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } finally {
+            cerrar(rs);
+            cerrar(ps);
         }
         return profesor;
-
-    }
-
-    public static void main(String[] args) throws SQLException {
-
-        ArrayList res;
-
-        System.out.println("Probando profesores DAO...\n");
-
-        ProfesoresDAO profDAO = new ProfesoresDAO();
-
-        /*
-        ProfesoresDTO profesor = profDAO.findProfesorByUsuario("jesus");
-        
-        System.out.println("Profesor recuperado:");
-        System.out.println("Id: " + profesor.getId());
-        System.out.println("DNI: " + profesor.getDni_doc());
-        System.out.println("Nombre: " + profesor.getNombre());
-        System.out.println("Apellido1: " + profesor.getApellido1());
-        System.out.println("Apellido2: " + profesor.getApellido2());
-        System.out.println("Telefono: " + profesor.getTelfcontacto());
-        System.out.println("Observaciones: " + profesor.getObservaciones());
-        System.out.println("Usuario: " + profesor.getUsuario());
-        System.out.println("Password: " + profesor.getPassword());
-        System.out.println("email: " + profesor.getEmail());
-        */
-
-        res = profDAO.obtenerProfesores();
-
-        Iterator i = res.listIterator();
-        while (i.hasNext()) {
-            ProfesoresDTO profesor = (ProfesoresDTO) i.next();
-            System.out.println("Id: " + profesor.getId());
-            System.out.println("DNI: " + profesor.getDni_doc());
-            System.out.println("Nombre: " + profesor.getNombre());
-            System.out.println("Apellido1: " + profesor.getApellido1());
-            System.out.println("Apellido2: " + profesor.getApellido2());
-            System.out.println("Telefono: " + profesor.getTelfcontacto());
-            System.out.println("Observaciones: " + profesor.getObservaciones());
-            System.out.println("Usuario: " + profesor.getUsuario());
-            System.out.println("Password: " + profesor.getPassword());
-            System.out.println("email: " + profesor.getEmail());
-        }
     }
 }
