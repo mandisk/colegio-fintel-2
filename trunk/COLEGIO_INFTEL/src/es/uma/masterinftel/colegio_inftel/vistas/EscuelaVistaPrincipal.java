@@ -1,68 +1,60 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * EscuelaVistaPrincipal.java
  */
 
-/*
- * EscuelaVistaPrincipal.java
- *
- * Created on 02-ene-2012, 1:38:51
- */
-//package colegio_inftel;
 package es.uma.masterinftel.colegio_inftel.vistas;
-/************************************************************************/
+
 import es.uma.masterinftel.colegio_inftel.modelo.dao.EscuelaModeloDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.EscuelaModeloDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.*;
 import java.awt.event.ActionListener;
 import javax.swing.event.*;
 import javax.swing.DefaultComboBoxModel;
-/*************************************************************************/
+
 
 /**
- *
- * @author Proyectos
+ * Vista para la muestra de los datos de los alumnos en una tabla.
+ * 
+ * @author Manuel Valls
+ * @version v1.0 Diciembre-2011
  */
 public class EscuelaVistaPrincipal extends javax.swing.JFrame {
-  /*****************************************************/
+    
     private EscuelaModeloDAO m_modelo;
     EscuelaModeloDTO dto = new EscuelaModeloDTO();
-     DefaultComboBoxModel comboModelo = new DefaultComboBoxModel();
-     DefaultComboBoxModel comboModeloGrupo = new DefaultComboBoxModel();
-     DefaultComboBoxModel comboModeloAsignatura = new DefaultComboBoxModel();
-     //Mirar el customize code de los combos
+    DefaultComboBoxModel comboModelo = new DefaultComboBoxModel();
+    DefaultComboBoxModel comboModeloGrupo = new DefaultComboBoxModel();
+    DefaultComboBoxModel comboModeloAsignatura = new DefaultComboBoxModel();
+    /**
+     * Booleano para controlar si un profesor es Jefe de Estudios o no
+     */
     public boolean bJefeDeEstudios;
     private Integer idProfesor;
-
+    
+    /**
+     * Metodo get
+     * @return Id del profesor
+     */
     public Integer getIdProfesor() {
         return idProfesor;
     }
-    //public int rol=0;
-/**************************************************************/
     
-    /** Creates new form EscuelaVistaPrincipal */
+    /**
+     * Constructor de la clase
+     * @param modelo Modelo para la tabla 
+     */
     public EscuelaVistaPrincipal(EscuelaModeloDAO modelo) {
-        m_modelo = modelo;
-        dto.setId_cursos_fk(1);
-            dto.setId_grupo_kf(1);
-            dto.setCodasignatura_fk(1);
-           
-    
-        //DefaultTableModel model = new DefaultTableModel();
-        //m_modelo.obtenerDatos(tablaNotas);
-       // jTable1 = m_modelo.obtenerDatos();
-        // Se mete todo en un try por los posibles errores de MySQL
-     //   m_modelo.rellenaTabla(1,1,1);
-            
-              
-            m_modelo.rellenaTabla(dto);
-      // copiarDatos(m_modelo.tabla,jTable1);
         
-        //Indica si el usuario tiene rol de jefe de estudios
+        m_modelo = modelo;
+        
+        dto.setId_cursos_fk(1);
+        dto.setId_grupo_kf(1);
+        dto.setCodasignatura_fk(1);
+         
+        m_modelo.rellenaTabla(dto);
        
         initComponents();
-        //Iniciamos combo
-
+        
         this.setLocationRelativeTo(null); //centramos la ventana en pantalla
      
     }
@@ -319,81 +311,145 @@ public class EscuelaVistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField textNombre;
     // End of variables declaration//GEN-END:variables
  
-   
-  public int getCurso() {
+  /**
+     * Devuelve el curso seleccionado
+     * @return Curso seleccionado
+     */ 
+   public int getCurso() {
        return comboCurso.getSelectedIndex()+1;
     }
+   
+   /**
+    * Devuelve el grupo seleccionado
+    * @return Grupo seleccionado
+    */
    public int getGrupo(){
    return comboGrupo.getSelectedIndex()+1;
    }
+   
+   /**
+    * Devuelve la asignatura seleccionada
+    * @return Asignatura seleccionada
+    */
    public int getAsignatura(){
    return comboAsignatura.getSelectedIndex()+1;
    }
+   
+   /**
+    * Devuelve el item del curso seleccionado
+    * @return Item del curso seleccionado
+    */
    public Object getCursoItem(){
    return comboCurso.getSelectedItem();
    }
+   
+   /**
+    * Devuelve el item del grupo seleccionado
+    * @return Item del grupo seleccionado
+    */
    public Object getGrupoItem(){
    return comboGrupo.getSelectedItem();
    }
+   
+   /**
+    * Devuelve el item de la asignatura seleccionada
+    * @return Item de la asignatura seleccionada
+    */
    public Object getAsignaturaItem(){
    return comboAsignatura.getSelectedItem();
    }
+   
+   /**
+    * Devuelve la cadena de texto escrita en el campo de texto
+    * @return Nombre de la persona
+    */
    public String getNombre(){
    return textNombre.getText();
    }
+   /**
+    * Devuelve el número de la fila seleccionada
+    * @return Número de la fila seleccionada
+    */
    public int getFila(){
    return jTable1.getSelectedRow();
    }
-    public Object getTableData(int rowIndex, int colIndex){
-  return jTable1.getModel().getValueAt(rowIndex, colIndex);
-  }  
-   // public void addTableListener(TableModelListener tab){
- //  jTable1.getModel().addTableModelListener(tab);
- //  }
    
+   /**
+    * Obtiene el valor de una celda
+    * @param rowIndex Fila de la tabla
+    * @param colIndex Columna de la tabla
+    * @return Valor de la celda
+    */
+    public Object getTableData(int rowIndex, int colIndex){
+    return jTable1.getModel().getValueAt(rowIndex, colIndex);
+    }  
+    
+    /**
+     * Modifica el valor de la celda de la tabla
+     * @param dato Valor a introducir en la celda
+     * @param rowIndex Fila de la tabla
+     * @param colIndex Columna de la tabla
+     */
+     public void setTableData(double dato,int rowIndex, int colIndex){
+     m_modelo.modelo.setValueAt(dato, rowIndex, colIndex);
+    }
+     
+      /**
+      * Acción para buscar alumnos por curso,grupo y asignatura
+      * @param bus Acción
+      */
     public void addSearchListener(ActionListener bus) {
         btBuscar.addActionListener(bus);
     }
+    
+    /**
+     * Acción para filtrar alumnos por nombre y apellidos
+     * @param name Acción
+     */
     public void addFilterName(DocumentListener name){
         textNombre.getDocument().addDocumentListener(name);
     }
 
+    /**
+     * Accion para mostrar el formulario de Anotar Notas
+     * @param a Acción
+     */
     public void addAnotarNotasListener(ActionListener a){
         btCalificaciones.addActionListener(a);
     }
+    
+    /**
+     * Acción para mostrar el formulario de Anotar Incidencias
+     * @param a Acción
+     */
     public void addAnotarIncidenciasListener(ActionListener a){
         btIncidencias.addActionListener(a);
     }
+    
+    /**
+     * Acción para mostrar el formulario de Estadísticas
+     * @param a Acción
+     */
     public void addVerEstadisticasListener(ActionListener a){
     btEstadisticas.addActionListener(a);
     }
+    
+    /**
+     * Acción para ajustar los combos según el grupo seleccionado
+     * @param a Acción
+     */
     public void addComboListener(ActionListener a){
     comboCurso.addActionListener(a);
     }
-/*********************************************************/
+    
+    /**
+     * Método para saber si un profesor es jefe de estudios o no
+     * @param rolUsuario Rol de usuario
+     * @param idProfesor  Id del profesor
+     */
     public void setRolJefeDeEstudios(Integer rolUsuario,Integer idProfesor) {
       
         bJefeDeEstudios = (rolUsuario == Constantes.ROL_JEFE_DE_ESTUDIOS);
         this.idProfesor = idProfesor;
-        //iniciaComboCurso(bJefeDeEstudios,idProfesor);
-    }
-/*****************************************************/
-
-/**************************************************************************/
- 
-
-
-    public void setNotas(double dato,int columna){
-    int fila = getFila();
-    //Notas n;
-    //setTableData(dato,fila,columna);
-    setTableData(2,1,6);
-    } 
-    public void setTableData(double dato,int rowIndex, int colIndex){
-  //jTable1.getModel().setValueAt(dato, rowIndex, colIndex);
-        //jTable1.setValueAt(dato, rowIndex, colIndex);
-        m_modelo.modelo.setValueAt(dato, rowIndex, colIndex);
-  }
-    
- /**************************************************************************/       
+    }     
 }
