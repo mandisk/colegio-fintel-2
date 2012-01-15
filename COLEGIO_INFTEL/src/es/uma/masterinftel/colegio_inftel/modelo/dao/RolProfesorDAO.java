@@ -1,58 +1,57 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uma.masterinftel.colegio_inftel.modelo.dao;
 
+import com.mysql.jdbc.PreparedStatement;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.*;
 import es.uma.masterinftel.colegio_inftel.utilidades.*;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.Connection;
 
 /**
- *
- * @author jsbaes
+ * RolProfesoresDAO es la clase DAO (Data Access Object) para el acceso al
+ * modelo (rol_profesor). 
+ * 
+ * @author Jesus Barriga
+ * @version 1.0, Diciembre-2011
+ * 
  */
-public class RolProfesorDAO {
+public class RolProfesorDAO extends GenericDAO {
 
-    public RolProfesorDTO findRolByProfesorId(Integer idProfesor) {
-        RolProfesorDTO rolProfesor = new RolProfesorDTO();
+    /**
+     * Sentencia SQL para recuperar de la BD el rol de un profesor.
+     */
+    public static final String SQL_ROLES_BY_ID =
+            "SELECT * FROM ROL_PROFESOR WHERE id_profesor_fk = ?";
+   
+    /**
+     * Consulta del rol de un profesor a partir de su identificador
+     * 
+     * @return objeto RolProfesorDTO con el rol del profesor
+     * @throws java.sql.SQLException
+     */
+    public RolProfesorDTO findRolByProfesorId(Integer idProfesor) throws SQLException {
+
+        Connection conn = Conexion.conectar();
+
+        PreparedStatement ps = null;
         ResultSet rs = null;
-        Connection conexion = Conexion.conectar();
-
-        String cadenaConsulta = "SELECT * FROM ROL_PROFESOR "
-                + "WHERE id_profesor_fk='" + idProfesor + "';";
+        RolProfesorDTO rolProfesor = new RolProfesorDTO();
 
         try {
-            // Se crea un Statement, para realizar la consulta
-            Statement s = conexion.createStatement();
+            if (conn != null) {
+                ps = (PreparedStatement) conn.prepareStatement(SQL_ROLES_BY_ID);
+                ps.setInt(1, idProfesor);
+                rs = ps.executeQuery();
 
-            rs = s.executeQuery(cadenaConsulta);
-
-            // Debería recuperar un solo registro. Si recupera más, devolverá
-            // siempre el último.
-            while (rs.next()) {
-                rolProfesor.setId_profesor_fk(rs.getInt("id_profesor_fk"));
-                rolProfesor.setId_rol_fk(rs.getInt("id_rol_fk"));
+                while (rs.next()) {
+                    rolProfesor.setId_profesor_fk(rs.getInt("id_profesor_fk"));
+                    rolProfesor.setId_rol_fk(rs.getInt("id_rol_fk"));
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } finally {
+            cerrar(rs);
+            cerrar(ps);
         }
         return rolProfesor;
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println("Probando el DAO...\n");
-
-        RolProfesorDAO rolProfDAO = new RolProfesorDAO();
-
-        RolProfesorDTO rolProfesor = rolProfDAO.findRolByProfesorId(5);
-
-        System.out.println("Rol recuperado:");
-        System.out.println("Id_rol_fk: " + rolProfesor.getId_rol_fk());
-        System.out.println("Id_profesor_fk: " + rolProfesor.getId_profesor_fk());
     }
 }
