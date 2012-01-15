@@ -5,9 +5,6 @@ import es.uma.masterinftel.colegio_inftel.modelo.dto.*;
 import es.uma.masterinftel.colegio_inftel.vistas.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.sql.SQLException;
 
@@ -20,43 +17,40 @@ import java.sql.SQLException;
  * @version 1.0, Diciembre-2011
  * 
  */
-
 public class LoginControlador {
-    
+
     /** El modeo utilizado para el Login. */
-    private ProfesoresDAO  m_modelo;
-    
+    private ProfesoresDAO m_modelo;
     /** La vista utilizada para el Login. */
-    private LoginVista  m_vista;
-    
+    private LoginVista m_vista;
     /** Recuperación del rol del profesor. */
     private RolProfesorDAO rol = new RolProfesorDAO();
-    
+
     /**
      * Constructor de la clase, especificando el modelo y la vista.
      *
-     * @param modelo El modelo utilizado con los datos del usuario que accede
+     * @param modelo El modelo utilizado con los datos del usuario
      * @param vista La vista con la pantalla de acceso
      */
-    public LoginControlador(ProfesoresDAO modelo, LoginVista vista){
+    public LoginControlador(ProfesoresDAO modelo, LoginVista vista) {
 
         m_modelo = modelo;
-        m_vista  = vista;
+        m_vista = vista;
 
         m_vista.addAceptarListener(new AceptarListener());
         m_vista.addCancelarListener(new CancelarListener());
-        
+
         m_vista.focoInicial();
 
     }
-   
+
     /**
      * Devuelve en un string la codificación en md5 de la cadena de entrada.
      *
      * @param clear Cadena a codidifcar
      * @return Cadena con la coficación en md5 de la cadena de entrada.
      */
-     private static String md5(String clear) throws Exception {
+    private static String md5(String clear) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] b = md.digest(clear.getBytes());
 
@@ -72,35 +66,35 @@ public class LoginControlador {
         }
         return h.toString();
     }
-    
+
     /**
      * Carga y hace visible la venta principal tras la validaciónd el usuario
      *
      * @param rol Rol del usuario (profesor o jefe de estudios)
      * @param idProfesor Id del usuario
      */
-    private void navegacion(Integer rol,Integer idProfesor) throws SQLException {
+    private void navegacion(Integer rol, Integer idProfesor) throws SQLException {
         EscuelaModeloDAO next_modelo = new EscuelaModeloDAO();
         EscuelaVistaPrincipal next_vista = new EscuelaVistaPrincipal(next_modelo);
-        next_vista.setRolJefeDeEstudios(rol,idProfesor);
-        EscuelaControlador next_controlador = new EscuelaControlador(next_modelo,next_vista);
-        
+        next_vista.setRolJefeDeEstudios(rol, idProfesor);
+        EscuelaControlador next_controlador = new EscuelaControlador(next_modelo, next_vista);
+
         m_vista.setVisible(false);
-        
+
         next_vista.setVisible(true);
     }
-    
+
     /**
      * Clase encargada de gestionar los evento asociados al botón de Aceptar
      * en la vista de Login. 
      */
     class AceptarListener implements ActionListener {
 
-    /**
-     * Se lanza cuando el usuario pulsa Aceptar en la vista de Login
-     *
-     * @param e Un objeto ActionEvent con el evento disparado en la vista
-     */
+        /**
+         * Se lanza cuando el usuario pulsa Aceptar en la vista de Login
+         *
+         * @param e Un objeto ActionEvent con el evento disparado en la vista
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -143,12 +137,12 @@ public class LoginControlador {
                                 bTest = md5(pass).equals(profesor.getPassword());
                                 if (bTest) {
                                     // El usuario es válido
-                                    
+
                                     RolProfesorDTO rolProfesor = rol.findRolByProfesorId(profesor.getId());
-                                    navegacion(rolProfesor.getId_rol_fk(),profesor.getId());
-                                }
-                                else
+                                    navegacion(rolProfesor.getId_rol_fk(), profesor.getId());
+                                } else {
                                     m_vista.printMensajeUserPassIncorrectos();
+                                }
                             } else {
                                 m_vista.printMensajeUserPassIncorrectos();
                             }
@@ -172,31 +166,14 @@ public class LoginControlador {
      */
     class CancelarListener implements ActionListener {
 
-    /**
-     * Se lanza cuando el usuario pulsa Cancelar en la vista de Login
-     *
-     * @param e Un objeto ActionEvent con el evento disparado en la vista
-     */
+        /**
+         * Se lanza cuando el usuario pulsa Cancelar en la vista de Login
+         *
+         * @param e Un objeto ActionEvent con el evento disparado en la vista
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             m_vista.salir();
         }
-    }
-
-    /**
-     * Método main que permite realizar pruebas de ejecución de diversos 
-     * métodos de la clase.
-     *
-     * @param args Array de argumentos de ejecución
-     */
-    public static void main(String[] args) throws IOException, Exception {
-
-      BufferedReader entrada = new BufferedReader (new InputStreamReader(System.in));
-      System.out.println("Palabra a codificar: \n");
-      String palabra = entrada.readLine();
-      System.out.println("Calculando código ...\n");
-      String clave = LoginControlador.md5(palabra); 
-      System.out.println("Código md5: " + clave + "\n");
-
     }
 }
