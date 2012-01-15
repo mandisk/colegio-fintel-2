@@ -1,5 +1,8 @@
+/**
+ * AnotarIncidenciasControlador.java
+ *
+ */
 package es.uma.masterinftel.colegio_inftel.control;
-
 
 import com.mysql.jdbc.Connection;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
@@ -13,21 +16,22 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
+ * Controlador para Anotar Incidencias
  *
- * @author BlackCrystal™
+ * @author Luis Jarén
+ * @version v1.0 Diciembre-2011
  */
 public class AnotarIncidenciasControlador {
 
     private MatriculacionesDAO modelo;
     private AnotarIncidenciasVista vista;
-    private int anio_mat=2007;
-    private int id_alumno=31;
+
+    /**
+     * Constructor de la clase
+     * @param modelo clase DAO de acceso a datos
+     * @param vista clase formulario para visualización
+     */
 
     public AnotarIncidenciasControlador(MatriculacionesDAO modelo, AnotarIncidenciasVista vista){
 
@@ -37,6 +41,10 @@ public class AnotarIncidenciasControlador {
         vista.addCancelarListener(new CerrarListener());
         vista.addConfirmarListener(new ConfirmarListener());
     }
+
+     /**
+     * Listener para el botón GUARDAR
+     */
         public class ConfirmarListener implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
@@ -56,8 +64,9 @@ public class AnotarIncidenciasControlador {
                         dto.setRetardos(vista.getRetrasos());
                         dto.setSanciones(vista.getSanciones());
                         dto.setObservaciones(vista.getComentarios());
-                        //TODO volver a vista Principal
+        
                         try {
+                             //Actualización de notas en el modelo
                             System.out.println(dto.toString());
                             modelo.update(dto,cnn);
                         } catch (SQLException ex) {
@@ -70,18 +79,21 @@ public class AnotarIncidenciasControlador {
                     }
                 }
             };
-
+            //Creación de hebra para evitar bloqueo interfaz
             Thread hilo = new Thread(miRunnable);
             hilo.start();
+            //Cerramos la vista
             vista.setVisible(false);
         }
 
     }
+     /**
+     * Listener para ocutar la vista al pulsar botón CERRAR
+     */
     public class CerrarListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
            vista.setVisible(false);
-           //TODO volver a vista Principal
         }
 
     }
