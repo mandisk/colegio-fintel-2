@@ -55,7 +55,7 @@ public class AnotarNotasControlador {
     /**
      * Verifica si se trata de una nota de examen válido
      * @param   text Nota de examen
-     * @return  true si 0<=nota<=10, false en caso contrario
+     * @return  true si está entre 0 y 10.
      */
     private boolean notaValida(String text) {
 
