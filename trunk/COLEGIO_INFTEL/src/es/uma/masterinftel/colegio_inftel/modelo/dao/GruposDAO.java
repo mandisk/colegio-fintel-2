@@ -29,7 +29,7 @@ public class GruposDAO extends GenericDAO {
     /**
      * Consulta de los grupos pertenecientes al curso que se pasa como parámetro
      * 
-     * @param cnn       Conexión a la BD
+     * @param conn      Conexión a la BD
      * @param idCurso   Identificador del curso cuyos grupos se desea recuperar
      * @return ArrayList de GruposDTO con los grupos recuperados
      * @throws java.sql.SQLException
