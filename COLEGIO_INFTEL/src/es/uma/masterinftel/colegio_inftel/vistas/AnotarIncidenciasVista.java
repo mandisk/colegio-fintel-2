@@ -432,7 +432,7 @@ public class AnotarIncidenciasVista extends javax.swing.JDialog {
 
      /**
      * Escribe los comentarios en el textarea de la vista
-     * @param comentarios valor de los comentarios sobre el alumno
+     * @param comentario valor de los comentarios sobre el alumno
      */
     public void setComentarios(String comentario){
         comentariosTextArea.setText(comentario);
