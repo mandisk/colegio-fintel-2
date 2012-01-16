@@ -5,7 +5,7 @@
 package es.uma.masterinftel.colegio_inftel.control;
 
 import com.mysql.jdbc.Connection;
-import es.uma.masterinftel.colegio_inftel.control.EscuelaControlador.ObjCombo;
+//import es.uma.masterinftel.colegio_inftel.control.EscuelaControlador.ObjCombo;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.AsignaturasDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CalificacionesDAO;
 import es.uma.masterinftel.colegio_inftel.modelo.dao.CursosDAO;
@@ -16,6 +16,7 @@ import es.uma.masterinftel.colegio_inftel.modelo.dto.CursosDTO;
 import es.uma.masterinftel.colegio_inftel.modelo.dto.ProfesoresDTO;
 import es.uma.masterinftel.colegio_inftel.utilidades.Conexion;
 import es.uma.masterinftel.colegio_inftel.utilidades.MatriculadosAsignaturas;
+import es.uma.masterinftel.colegio_inftel.utilidades.ObjCombo;
 import es.uma.masterinftel.colegio_inftel.vistas.EstadisticasVista;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -47,7 +48,6 @@ public class EstadisticasControlador {
      *
      * @param vista clase formulario para visualización
      */
-
     public EstadisticasControlador( EstadisticasVista vista) {
         try{
         
@@ -69,8 +69,6 @@ public class EstadisticasControlador {
      * Realiza la carga de los JComboBox de la vista Estadisticas
      *
      */
-
-
     private void cargarCombos() throws SQLException{
         ArrayList anios = new ArrayList();
         ArrayList profesores = new ArrayList();
@@ -82,7 +80,6 @@ public class EstadisticasControlador {
         cargarComboAsignaturas(cnn,asignaturas);
         cargarComboCursos(cnn,cursos);
     }
-     //método para cargar combos
 
     /**
      * Realiza la carga de los items de los JComboBox años de matriculación
@@ -91,7 +88,6 @@ public class EstadisticasControlador {
      */
     public void cargarCombosAnio( ArrayList anios) throws SQLException{
         //CARGA DEL COMBO AÑOS MATRICULACION
-        System.out.println("Cargando combo años");
         MatriculacionesDAO matriculacionesDAO = new MatriculacionesDAO();
         Connection cnn = (Connection) Conexion.conectar();
         anios = (ArrayList) matriculacionesDAO.obtener_anios_matriculaciones(cnn);
@@ -114,8 +110,7 @@ public class EstadisticasControlador {
      */
     public void cargarComboProfesores(ArrayList profesores) throws SQLException{
 
-        System.out.println("Cargando combo profesores");
-         // CARGA DEL COMBO PROFESORES
+        // CARGA DEL COMBO PROFESORES
         ProfesoresDAO profesoresDAO = new ProfesoresDAO();
         profesores = profesoresDAO.obtenerProfesores();
         Iterator j = profesores.iterator();
@@ -124,17 +119,13 @@ public class EstadisticasControlador {
         while (j.hasNext()) {
             profesoresDTO = (ProfesoresDTO) j.next();
             String nombre = profesoresDTO.getNombre() + " " + profesoresDTO.getApellido1() + " " + profesoresDTO.getApellido2();
-            Integer id = profesoresDTO.getId();
-            ObjCombo profesor = null ;
-            profesor.id = id;
-            profesor.nombre=nombre;
+
+            ObjCombo profesor = new ObjCombo(profesoresDTO.getId(),nombre);
+            
             m_vista.profesorComboBox.addItem(profesor);
         }
-
-        ObjCombo profesor = (ObjCombo) m_vista.profesorComboBox.getSelectedItem();
-        System.out.println("ID: " + profesor.id);
     }
-    //método para cargar combo asignaturas
+
     /**
      * Realiza la carga de los items de los JComboBox de asignaturas
      *
@@ -142,7 +133,6 @@ public class EstadisticasControlador {
      * @param asignaturas array de asignaturas
      */
     public void cargarComboAsignaturas(Connection cnn, ArrayList asignaturas) throws SQLException{
-        System.out.println("Cargando combo asignaturas");
         AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
         asignaturas = asignaturasDAO.obtenerAsignaturas(cnn);
         Iterator j = asignaturas.iterator();
@@ -151,14 +141,11 @@ public class EstadisticasControlador {
         while (j.hasNext()) {
             
             asignaturasDTO = (AsignaturasDTO) j.next();
-            ObjCombo asignatura = null;
-            asignatura.nombre = asignaturasDTO.getDesc();
-            asignatura.id= asignaturasDTO.getCodasignatura();
+
+            ObjCombo asignatura = new ObjCombo(asignaturasDTO.getCodasignatura(),asignaturasDTO.getDesc());
+         
             m_vista.asignaturaComboBox.addItem(asignatura);
         }
-        ObjCombo asignatura = (ObjCombo) m_vista.asignaturaComboBox.getSelectedItem();
-        System.out.println("ID: " + asignatura.getId());
-
     }
     //método para cargar combo cursos
     /**
@@ -169,7 +156,6 @@ public class EstadisticasControlador {
      * 
      */
     public void cargarComboCursos(Connection cnn, ArrayList cursos) throws SQLException{
-        System.out.println("Cargando combo cursos");
         CursosDAO cursoDAO = new CursosDAO();
         cursos = cursoDAO.obtenerCursos(cnn);
         Iterator j = cursos.iterator();
@@ -178,14 +164,9 @@ public class EstadisticasControlador {
         while (j.hasNext()) {
 
             cursosDTO = (CursosDTO) j.next();
-            ObjCombo curso = null;
-            curso.nombre = cursosDTO.getDesc();
-            curso.id = cursosDTO.getId();
+            ObjCombo curso = new ObjCombo(cursosDTO.getId(),cursosDTO.getDesc());
             m_vista.cursoComboBox.addItem(curso);
         }
-        ObjCombo curso = (ObjCombo) m_vista.cursoComboBox.getSelectedItem();
-        System.out.println("ID: " + curso.getId());
-
     }
 
      /**
@@ -195,7 +176,6 @@ public class EstadisticasControlador {
     public class Estadistica1Listener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Pulsado boton1");
             m_vista.setVisible(false);
             Connection cnn = (Connection) Conexion.conectar();
             CalificacionesDAO calificacion = new CalificacionesDAO();
@@ -217,6 +197,7 @@ public class EstadisticasControlador {
                         curso.getId());
                 if (numMatriculados == 0) {
                     m_vista.printMensajeSinDatos();
+                    m_vista.setVisible(true);
                 } else {
                     float porcAprobados = ((float) numAprobados / (float) numMatriculados) * 100;
                     float porcSuspensos = (((float) numMatriculados - (float) numAprobados) / (float) numMatriculados) * 100;
@@ -262,7 +243,6 @@ public class EstadisticasControlador {
     public class Estadistica2Listener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Pulsado boton2");
             m_vista.setVisible(false);
             Connection cnn = (Connection) Conexion.conectar();
             CalificacionesDAO calificacion = new CalificacionesDAO();
@@ -273,14 +253,15 @@ public class EstadisticasControlador {
 
                 Integer numAprobados = null;
                 try {
-                    numAprobados = calificacion.numAprobados(cnn, profesor.id, (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem());
+                    numAprobados = calificacion.numAprobados(cnn, profesor.getId(), (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem());
                 } catch (SQLException ex) {
                     Logger.getLogger(EstadisticasControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Integer numMatriculados = calificacion.numMatriculados(cnn, profesor.id, (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem());
+                Integer numMatriculados = calificacion.numMatriculados(cnn, profesor.getId(), (Integer) m_vista.anioMatriculadosComboBox.getSelectedItem());
 
                 if (numMatriculados == 0) {
                     m_vista.printMensajeSinDatos();
+                    m_vista.setVisible(true);
                 } else {
                     float porcAprobados = ((float) numAprobados / (float) numMatriculados) * 100;
                     float porcSuspensos = (((float) numMatriculados - (float) numAprobados) / (float) numMatriculados) * 100;
@@ -324,7 +305,6 @@ public class EstadisticasControlador {
     public class Estadistica3Listener implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Pulsado botonf3");
             m_vista.setVisible(false);
             Connection cnn = (Connection) Conexion.conectar();
             MatriculacionesDAO matriculacion = new MatriculacionesDAO();

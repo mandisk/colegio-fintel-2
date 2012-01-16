@@ -43,7 +43,6 @@ public class ConfigBD {
         Properties p = new Properties();
         try {
             FileInputStream config = new FileInputStream(fileName);
-            //InputStream config = ClassLoader.getSystemResourceAsStream(ConfigBD.class.getPackage().getName() + "/" + fileName);
             
             p.load(config);
             config.close();
