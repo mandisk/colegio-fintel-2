@@ -22,6 +22,7 @@ public class EstadisticasVista extends javax.swing.JDialog {
      * Constructor de clase
      * @param parent ventana padre de Anotar Incidencia Vista
      * @param modal si true se visualiza de forma Modal
+     * @throws java.sql.SQLException
      */
 
     public EstadisticasVista(java.awt.Frame parent, boolean modal) throws SQLException {
