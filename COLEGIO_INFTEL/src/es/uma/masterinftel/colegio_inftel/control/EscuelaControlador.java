@@ -126,45 +126,6 @@ public class EscuelaControlador {
       
     }
 
-
-    /**
-     * Clase para almacenar objetos en los combos con (ID, Descripción)
-     *
-     */
-    class ObjCombo {
-
-        public Integer  id;
-        public String   nombre;
-
-        public ObjCombo(Integer id, String nombre) {
-            this.id = id;
-            this.nombre = nombre;
-        }
-
-        public boolean equals(Profesor p) {
-            if (p.nombre.compareTo(this.nombre) == 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        public String toString() {
-            return nombre;
-        }
-    
-        public Integer getId() {
-            return id;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-    }
-
-
     /**
      * Carga de combos.
      * Si el usuario es jefe de estudio carga todas los cursos,
@@ -178,8 +139,6 @@ public class EscuelaControlador {
             Connection cnn = (Connection) Conexion.conectar();
             CursosDAO cursosDAO = new CursosDAO();
             CursosDTO cursosDTO = new CursosDTO();
-
-            System.out.println("id profesor:"+m_vista.getIdProfesor());
 
             if (m_vista.bJefeDeEstudios) {
                 //es jefe de estudios
@@ -222,9 +181,6 @@ public class EscuelaControlador {
             AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
             AsignaturasDTO asignaturasDTO = new AsignaturasDTO();
             CursosDAO cursosDAO = new CursosDAO();
-            CursosDTO cursosDTO = new CursosDTO();
-
-            System.out.println("id profesor:"+m_vista.getIdProfesor());
 
             if (m_vista.bJefeDeEstudios) {
                 //es jefe de estudios
@@ -287,8 +243,6 @@ public class EscuelaControlador {
                         break;
               }
 
-                
-               
             }
 
             //Carga del combo Grupos correspondiente al primer curso
@@ -407,7 +361,6 @@ public class EscuelaControlador {
                 int anioMatricula;
                 try{
                     anioMatricula = objMatricula.obtener_anio_matricula(cnn);
-                    System.out.println("Pulsado");
 
                     v_calificaciones.setAnio_mat(anioMatricula);
                     v_calificaciones.setId_alumno(idAlumno);
@@ -466,7 +419,6 @@ public class EscuelaControlador {
             int anioMatricula;
             try{
                     anioMatricula = objMatricula.obtener_anio_matricula(cnn);
-                    System.out.println("Pulsado");
 
                     v_incidencias.setAnio_mat(anioMatricula);
                     v_incidencias.setId_alumno(idAlumno);

@@ -67,7 +67,6 @@ public class AnotarIncidenciasControlador {
         
                         try {
                              //Actualización de notas en el modelo
-                            System.out.println(dto.toString());
                             modelo.update(dto,cnn);
                         } catch (SQLException ex) {
                             Logger.getLogger(AnotarIncidenciasControlador.class.

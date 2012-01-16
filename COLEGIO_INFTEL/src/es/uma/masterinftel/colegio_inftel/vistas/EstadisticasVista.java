@@ -281,8 +281,8 @@ public class EstadisticasVista extends javax.swing.JDialog {
      */
     private void profesorComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_profesorComboBoxItemStateChanged
         
-        ObjCombo profesor = (ObjCombo) profesorComboBox.getSelectedItem();
-        System.out.println("ID: " + profesor.getId());
+        //ObjCombo profesor = (ObjCombo) profesorComboBox.getSelectedItem();
+        //System.out.println("ID: " + profesor.getId());
     }//GEN-LAST:event_profesorComboBoxItemStateChanged
     /**
      * Acción para cambios en el combo asignatura
@@ -290,8 +290,8 @@ public class EstadisticasVista extends javax.swing.JDialog {
      */
     private void asignaturaComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_asignaturaComboBoxItemStateChanged
         
-        ObjCombo asignatura = (ObjCombo) asignaturaComboBox.getSelectedItem();
-        System.out.println("ID: " + asignatura.getId());
+        //ObjCombo asignatura = (ObjCombo) asignaturaComboBox.getSelectedItem();
+        //System.out.println("ID: " + asignatura.getId());
     }//GEN-LAST:event_asignaturaComboBoxItemStateChanged
     /**
      * Acción para cambios en el combo curso
@@ -299,8 +299,8 @@ public class EstadisticasVista extends javax.swing.JDialog {
      */
     private void cursoComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cursoComboBoxItemStateChanged
         
-        ObjCombo curso = (ObjCombo) cursoComboBox.getSelectedItem();
-        System.out.println("ID: " + curso.getId());
+        //ObjCombo curso = (ObjCombo) cursoComboBox.getSelectedItem();
+        //System.out.println("ID: " + curso.getId());
     }//GEN-LAST:event_cursoComboBoxItemStateChanged
 
     private void anioMatriculadosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anioMatriculadosComboBoxActionPerformed
