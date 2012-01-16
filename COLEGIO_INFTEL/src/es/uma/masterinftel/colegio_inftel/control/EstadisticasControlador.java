@@ -68,6 +68,7 @@ public class EstadisticasControlador {
     /**
      * Realiza la carga de los JComboBox de la vista Estadisticas
      *
+     * @throws java.sql.SQLException
      */
     private void cargarCombos() throws SQLException{
         ArrayList anios = new ArrayList();
@@ -85,6 +86,7 @@ public class EstadisticasControlador {
      * Realiza la carga de los items de los JComboBox años de matriculación
      *
      * @param anios array de años de matriculación
+     * @throws java.sql.SQLException
      */
     public void cargarCombosAnio( ArrayList anios) throws SQLException{
         //CARGA DEL COMBO AÑOS MATRICULACION
@@ -107,6 +109,7 @@ public class EstadisticasControlador {
      * Realiza la carga de los items de los JComboBox de nombres de profesores
      *
      * @param profesores array con los nombres de los profesores
+     * @throws java.sql.SQLException
      */
     public void cargarComboProfesores(ArrayList profesores) throws SQLException{
 
@@ -131,6 +134,7 @@ public class EstadisticasControlador {
      *
      * @param cnn conexion a la BD
      * @param asignaturas array de asignaturas
+     * @throws java.sql.SQLException
      */
     public void cargarComboAsignaturas(Connection cnn, ArrayList asignaturas) throws SQLException{
         AsignaturasDAO asignaturasDAO = new AsignaturasDAO();
@@ -153,7 +157,7 @@ public class EstadisticasControlador {
      *
      * @param cnn conexion a BD
      * @param cursos array de cursos
-     * 
+     * @throws java.sql.SQLException
      */
     public void cargarComboCursos(Connection cnn, ArrayList cursos) throws SQLException{
         CursosDAO cursoDAO = new CursosDAO();
